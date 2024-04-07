@@ -7,6 +7,7 @@ import OtpInput from 'react-otp-input'
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css'
 import { Sansita } from '@next/font/google'
+import { useRouter } from 'next/navigation'
 
 const SansitaBold = Sansita({
     subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function Register() {
    const[otp , setOtp] = useState(''); 
    const[phone , setPhone] = useState('')
    const[user , setUser] = useState<ConfirmationResult | null>(null)
+   const router = useRouter()
 
    const sendOtp = async () => {
     try {
@@ -35,6 +37,9 @@ export default function Register() {
     try {
         const data = await user?.confirm(otp);
         console.log(data);
+        if(!data){
+            router.push('/home');
+        }
         
     } catch (err) {
         console.log(err);

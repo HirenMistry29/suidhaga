@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header/header";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -18,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`overflow-x-hidden ${inter.className}`}>
+        {/* <div className=""> <Header/> </div> */}
+        <div className="pt-[3.5%]">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

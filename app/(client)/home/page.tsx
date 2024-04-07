@@ -1,9 +1,14 @@
-import React from 'react'
+"use client"
+import React from 'react';
 
-export default function page() {
-  return (
+const Home = () => {
+  return(
+    <>
     <div>
-        Hiren
+        Hiren Mistry
     </div>
+    </>
   )
 }
+
+export default Home;
