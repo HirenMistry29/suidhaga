@@ -5,7 +5,14 @@ import { RecaptchaVerifier, signInWithPhoneNumber , ConfirmationResult } from 'f
 import React, { useState } from 'react'
 import OtpInput from 'react-otp-input'
 import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/material.css'
+import { Sansita } from '@next/font/google'
 
+const SansitaBold = Sansita({
+    subsets: ["latin"],
+    weight: "700",
+    style: ['normal']
+})
 
 export default function Register() {
 
@@ -36,34 +43,52 @@ export default function Register() {
    }
 
   return (
-    <div className='flex justify-center'>
-        <div className="flex flex-col gap-5">
-            App
-            <div>
-                <PhoneInput
-                country={'in'}
-                value={phone}
-                onChange={phone=>setPhone('+'+phone)}
-
-                />
+    <div className='relative h-screen bg-[#F1F1F1]' >
+        <div className='absolute inset-0'>
+            <div id='vector-bg' className='flex justify-end overflow-hidden h-screen'>
+                <svg viewBox="0 0 702 1117" fill="none" xmlns="http://www.w3.org/2000/svg" className='h-full'>
+                    <path d="M372 0H703.5V1117H302C159 912 113.358 833.88 58 757.5C-21 648.5 -15.0001 598 58 488.5L372 0Z" fill="#3357B7" stroke="#ABCBFF" />
+                </svg>    
             </div>
-            <button onClick={sendOtp} className='bg-red-200 rounded p-4'>send otp</button>
-            <div id='recaptchaVerifier'></div>
-            <div className=''>
-                <label>Enter OTP</label>
-                <OtpInput 
-                    value={otp}
-                    onChange={setOtp}
-                    numInputs={6}
-                    renderInput={(props) => <input {...props} />}
-                    renderSeparator={<span className='px-1'></span>}
-                    inputStyle={'text-lg border-2 rounded border-blue-800 '} 
-                    
-                />
-
-            </div>
-            <div><button onClick={verifyUser} className='py-1 px-10 bg-blue-300 rounded'>Submit</button></div>
         </div>
+          <div id='card' className=' w-screen'>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 shadow-2xl w-[70%]">
+                  <span className={`${SansitaBold.className} text-xl md:text-2xl lg:text-3xl  text-[#333333]`}>Register To Your Account</span>
+                  <div className='mt-[4%]'>
+                      <PhoneInput
+                          country={'in'}
+                          value={phone}
+                          onChange={phone => setPhone('+' + phone)}
+                          disableDropdown	
+                      />
+                  </div>
+                  <div className="w-1/3 flex flex-col justify-center">
+                      <div className="flex justify-center">
+                          <div id='send_otp_button' className='px-[5%] py-[1%] bg-[#C84869] text-white mt-[2%] rounded-md cursor-pointer' onClick={sendOtp}> Send OTP</div>
+                      </div>
+                  </div>
+                  <div id='recaptchaVerifier' className='mt-[2%]'></div>
+                  <div className="w-1/3 mt-[4%]">
+                  <div className='flex justify-center items-center'>
+                      <label className='px-[3%]'>Enter OTP :</label>
+                      <OtpInput
+                          value={otp}
+                          onChange={setOtp}
+                          numInputs={6}
+                          renderInput={(props) => <input {...props} />}
+                          renderSeparator={<span className='px-1'></span>}
+                          inputStyle={'text-lg border-2 rounded border-gray-400 '}
+                      />
+                    </div>
+                    <div className="">
+                      <div className="flex justify-center">
+                          <div id='send_otp_button' className='px-[10%] py-[1%] bg-[#C84869] text-white mt-[2%] rounded-md cursor-pointer' onClick={verifyUser}>Verify</div>
+                      </div>
+                  </div>
+                  </div>
+                  
+              </div>
+          </div>
     </div>
   )
 }
