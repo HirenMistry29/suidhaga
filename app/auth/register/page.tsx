@@ -1,5 +1,5 @@
 "use client"
-import { auth } from '@/firebase/setup';
+import { auth } from '../../../firebase/setup';
 import { promises } from 'dns';
 import { RecaptchaVerifier, signInWithPhoneNumber , ConfirmationResult } from 'firebase/auth';
 import React, { useState } from 'react'
