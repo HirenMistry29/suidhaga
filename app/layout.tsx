@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/header";
+import { LoadingProvider } from "@/context/loading";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <LoadingProvider>
     <html lang="en">
       <body className={`overflow-x-hidden ${inter.className}`}>
         {/* <div className=""> <Header/> </div> */}
@@ -26,5 +28,6 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+    // </LoadingProvider>
   );
 }

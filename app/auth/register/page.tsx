@@ -1,6 +1,5 @@
 "use client"
 import { auth } from '../../../firebase/setup';
-import { promises } from 'dns';
 import { RecaptchaVerifier, signInWithPhoneNumber , ConfirmationResult } from 'firebase/auth';
 import React, { useState } from 'react'
 import OtpInput from 'react-otp-input'
@@ -8,6 +7,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css'
 import { Sansita } from '@next/font/google'
 import { useRouter } from 'next/navigation'
+
 
 const SansitaBold = Sansita({
     subsets: ["latin"],
@@ -37,7 +37,7 @@ export default function Register() {
     try {
         const data = await user?.confirm(otp);
         console.log(data);
-        if(!data){
+        if(data){
             router.push('/home');
         }
         

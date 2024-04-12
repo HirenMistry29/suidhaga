@@ -2,6 +2,7 @@ import React from "react";
 import IDF from "@/public/svgs/header.svg"
 import Image from "next/image";
 import Header from "@/components/Header/header";
+import { LoadingProvider } from "@/context/loading";
 
 
 export default function HomeLayout({
@@ -10,6 +11,8 @@ export default function HomeLayout({
     children: React.ReactNode
   }) {
     return (
+      <>
+      <LoadingProvider>
       <section className=" bg-[#D9D9D9]">
         <div className=""> <Header/> </div>
         <div className="">
@@ -29,5 +32,7 @@ export default function HomeLayout({
         </div>
         </div>
       </section>
+      </LoadingProvider>
+      </>
     )
   }
