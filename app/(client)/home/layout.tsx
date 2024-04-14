@@ -4,7 +4,6 @@ import Image from "next/image";
 import Header from "@/components/Header/header";
 import { LoadingProvider } from "@/context/loading";
 
-
 export default function HomeLayout({
     children, // will be a page or nested layout
   }: {

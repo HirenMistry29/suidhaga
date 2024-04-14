@@ -7,6 +7,8 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css'
 import { Sansita } from '@next/font/google'
 import { useRouter } from 'next/navigation'
+import { EyeFilled , EyeInvisibleFilled } from '@ant-design/icons';
+import PasswordForm from '@/components/auth/passwordForm';
 
 
 const SansitaBold = Sansita({
@@ -17,10 +19,11 @@ const SansitaBold = Sansita({
 
 export default function Register() {
 
-   const[otp , setOtp] = useState(''); 
-   const[phone , setPhone] = useState('')
-   const[user , setUser] = useState<ConfirmationResult | null>(null)
+   const[otp , setOtp]          = useState(''); 
+   const[phone , setPhone]      = useState('')
+   const[user , setUser]        = useState<ConfirmationResult | null>(null)
    const router = useRouter()
+   const[ status , setStatus ]  = useState(true)
 
    const sendOtp = async () => {
     try {
@@ -37,15 +40,19 @@ export default function Register() {
     try {
         const data = await user?.confirm(otp);
         console.log(data);
-        if(data){
-            router.push('/home');
-        }
+        setStatus(true);
+        // if(data){
+        //     router.push('/home');
+        // }
         
     } catch (err) {
         console.log(err);
     }
         
    }
+
+//    console.log(auth.currentUser);
+   
 
   return (
     <div className='relative h-screen bg-[#F1F1F1]' >
@@ -56,9 +63,10 @@ export default function Register() {
                 </svg>    
             </div>
         </div>
-          <div id='card' className=' w-screen'>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 shadow-2xl w-[70%]">
-                  <span className={`${SansitaBold.className} text-xl md:text-2xl lg:text-3xl  text-[#333333]`}>Register To Your Account</span>
+          <div id='card' className=' w-screen h-screen'>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white sm:p-[3%] xs:max-sm:py-[8%] xs:max-sm:px-[4%]  shadow-2xl w-[70%] h-[60%]">
+                  <span className={`${SansitaBold.className} text-xl md:text-2xl lg:text-3xl  text-[#333333] flex xs:place-content-center sm:place-content-center md:place-content-start`}>Register To Your Account</span>
+                  <div className={`${status && 'hidden'}`}>
                   <div className='mt-[4%]'>
                       <PhoneInput
                           country={'in'}
@@ -92,6 +100,12 @@ export default function Register() {
                   </div>
                   </div>
                   
+              </div>
+              <div className={`${!status && 'hidden'} `}>
+                    <div className={`${SansitaBold.className} text-md text-[#333333] md:text-xl mt-[2%] w-[100%] flex xs:max-md:place-content-center `}>Create Your Password</div>
+                    <div className='mt-[2%] w-full'><PasswordForm/></div>
+                    
+              </div>
               </div>
           </div>
     </div>
