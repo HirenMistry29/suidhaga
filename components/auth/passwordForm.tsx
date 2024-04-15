@@ -6,20 +6,27 @@ import { useFormik } from "formik";
 import * as yup from 'yup'
 import toast from "react-hot-toast";
 import { message } from "antd";
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '@/graphql/mutations/users.mutations';
 
 interface passwordField {
     password        : String
     confirmPassword : String
 }
 
-const PasswordForm = () => {
+interface ChildProps{
+    // setState : React.Dispatch<React.SetStateAction<string>>
+    phone : String
+}
+
+const PasswordForm:React.FC<ChildProps> = ({phone}) => {
 
     const[passwordVisible,setPasswordVisible] =  useState(false);
     const[confirmPasswordVisible , setConfirmPasswordVisible]= useState(false); 
     const[ Pfocus, setPfocus ] = useState('');
     const[ CPfocus , setCPfocus ] = useState('');
-    const initialValues:passwordField = { password : '' , confirmPassword : ''};
-    const[ status, setStatus ]  = useState(false)
+    const [signup,{loading , error}] =  useMutation(SIGN_UP)
+    // console.log(signup , loading , error);
 
     const formik = useFormik({
         initialValues : {
@@ -28,8 +35,22 @@ const PasswordForm = () => {
         },
         onSubmit: async () => {
             if (formik.values.password===formik.values.confirmPassword) {
+                const SignUpData = {phone:phone ,password: `${formik.values.password}`}
+                console.log(SignUpData);
+                
+                try {
+                    await signup({
+                        variables:{
+                            input: SignUpData,
+                        }
+                    })
+                } catch (error) {
+                    console.log(error);
+                    
+                }
                 toast.success('Password created')
                 console.log(formik.values);
+                // setState(formik.values.password);
             }
             if(formik.values.password!==formik.values.confirmPassword){
                 toast.error('password dont match')

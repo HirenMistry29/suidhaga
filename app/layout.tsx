@@ -10,16 +10,29 @@ import { useEffect } from "react";
 var NProgress = require("nprogress");
 import { Suspense } from 'react'
 import {Toaster} from "react-hot-toast";
-
-
+import { useQuery } from '@apollo/client';
+import { GET_AUTHENTICATED_USER } from "../graphql/queries/users.queries"
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloWrapper } from "@/apollo/apolloClient";
 
 const inter = Inter({ subsets: ["latin"] });
+
+// const client = new ApolloClient({
+// 	// TODO => Update the uri on production
+// 	uri: "http://localhost:8080/graphql", // the URL of our GraphQL server.
+// 	cache: new InMemoryCache(), // Apollo Client uses to cache query results after fetching them.
+// 	credentials: "include", // This tells Apollo Client to send cookies along with every request to the server.
+// });
+
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ 
+  
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -30,17 +43,21 @@ export default function RootLayout({
     
   },[pathname,searchParams])
 
+
   return (
-    // <LoadingProvider>
-    <html lang="en">
+    <>
+      <html lang="en">
       <body className={`overflow-x-hidden ${inter.className}`}>
         {/* <div className=""> <Header/> </div> */}
         <div className={`${pathname==='/home' &&' pt-[3.5%]'}`}>
-         {children}
+          {/* <ApolloProvider client={client}>   */}
+          <ApolloWrapper>{children}</ApolloWrapper>
+         {/* {children} */}
+         {/* </ApolloProvider> */}
          <Toaster position="bottom-right" toastOptions={{duration:2500}}/>
         </div>
       </body>
     </html>
-    // </LoadingProvider>
+    </>
   );
 }

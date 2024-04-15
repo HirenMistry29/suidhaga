@@ -9,6 +9,8 @@ import { Sansita } from '@next/font/google'
 import { useRouter } from 'next/navigation'
 import { EyeFilled , EyeInvisibleFilled } from '@ant-design/icons';
 import PasswordForm from '@/components/auth/passwordForm';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '@/graphql/mutations/users.mutations';
 
 
 const SansitaBold = Sansita({
@@ -20,16 +22,15 @@ const SansitaBold = Sansita({
 export default function Register() {
 
    const[otp , setOtp]          = useState(''); 
-   const[phone , setPhone]      = useState('')
+   const[phone , setPhone]      = useState('');
    const[user , setUser]        = useState<ConfirmationResult | null>(null)
-   const router = useRouter()
-   const[ status , setStatus ]  = useState(true)
+   const[ status , setStatus ]  = useState(false)
+
 
    const sendOtp = async () => {
     try {
         const recaptchaVerifier = new RecaptchaVerifier(auth,'recaptchaVerifier', {})
         const confirmation = await signInWithPhoneNumber(auth, phone , recaptchaVerifier)
-        console.log(confirmation);
         setUser(confirmation) 
     } catch (error) {
         console.log(error);   
@@ -103,7 +104,7 @@ export default function Register() {
               </div>
               <div className={`${!status && 'hidden'} `}>
                     <div className={`${SansitaBold.className} text-md text-[#333333] md:text-xl mt-[2%] w-[100%] flex xs:max-md:place-content-center `}>Create Your Password</div>
-                    <div className='mt-[2%] w-full'><PasswordForm/></div>
+                    <div className='mt-[2%] w-full'><PasswordForm phone={phone}/></div>
                     
               </div>
               </div>
