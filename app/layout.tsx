@@ -17,22 +17,11 @@ import { ApolloWrapper } from "@/apollo/apolloClient";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// const client = new ApolloClient({
-// 	// TODO => Update the uri on production
-// 	uri: "http://localhost:8080/graphql", // the URL of our GraphQL server.
-// 	cache: new InMemoryCache(), // Apollo Client uses to cache query results after fetching them.
-// 	credentials: "include", // This tells Apollo Client to send cookies along with every request to the server.
-// });
-
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
- 
-  
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -44,16 +33,18 @@ export default function RootLayout({
   },[pathname,searchParams])
 
 
+
+
+
+
+
   return (
     <>
       <html lang="en">
       <body className={`overflow-x-hidden ${inter.className}`}>
         {/* <div className=""> <Header/> </div> */}
         <div className={`${pathname==='/home' &&' pt-[3.5%]'}`}>
-          {/* <ApolloProvider client={client}>   */}
           <ApolloWrapper>{children}</ApolloWrapper>
-         {/* {children} */}
-         {/* </ApolloProvider> */}
          <Toaster position="bottom-right" toastOptions={{duration:2500}}/>
         </div>
       </body>

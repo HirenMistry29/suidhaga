@@ -4,21 +4,22 @@ import {auth} from "@/firebase/setup";
 import { signOut } from "firebase/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from '@/hooks/useRoute';
+import { useMutation } from "@apollo/client";
+import { LOGOUT } from "@/graphql/mutations/users.mutations";
 
 const Header = () => {
 
     const route = useNavigate();
+    const[logout , {loading}] = useMutation(LOGOUT);
 
-    const logout=()=>{
-        if(auth.currentUser){
-            signOut(auth)
-            .then(()=>{toast.success('User Loged out')})
-            .catch((err)=>{
-                console.log(err);
-            });
-        }
-        if(!auth.currentUser){
-            toast.error('user is not signed in');
+    const logOut= async()=>{
+        try {
+           await logout().then(()=>{toast.success(`user logged out`)})
+           
+        } catch (error) {
+            console.log(error);
+            toast.error(`could not logout`)
+            
         }
         
     }
@@ -31,9 +32,9 @@ const Header = () => {
                     Suidhaga
                 </div>
                 <div className="flex flex-row gap-4">
-                    <span onClick={()=>route('/auth/register')} className="cursor-pointer hover:text-[#C7C7C7] ">login</span>
+                    <span onClick={()=>route('/auth/login')} className="cursor-pointer hover:text-[#C7C7C7] ">login</span>
                     <span>|</span>
-                    <span onClick={logout} className="cursor-pointer hover:text-[#c7c7c7] ">logout</span>
+                    <span onClick={logOut} className="cursor-pointer hover:text-[#c7c7c7] ">logout</span>
                 </div>
             </div>
         </>

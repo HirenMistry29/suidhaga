@@ -8,18 +8,20 @@ import toast from "react-hot-toast";
 import { message } from "antd";
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '@/graphql/mutations/users.mutations';
+import { stat } from "fs";
 
-interface passwordField {
-    password        : String
-    confirmPassword : String
-}
+// interface passwordField {
+//     password        : String
+//     confirmPassword : String
+// }
 
 interface ChildProps{
-    // setState : React.Dispatch<React.SetStateAction<string>>
-    phone : String
+    password : React.Dispatch<React.SetStateAction<string>>
+    status:  React.Dispatch<React.SetStateAction<boolean>>
+    // phone : String
 }
 
-const PasswordForm:React.FC<ChildProps> = ({phone}) => {
+const PasswordForm:React.FC<ChildProps> = ({password , status}) => {
 
     const[passwordVisible,setPasswordVisible] =  useState(false);
     const[confirmPasswordVisible , setConfirmPasswordVisible]= useState(false); 
@@ -35,21 +37,22 @@ const PasswordForm:React.FC<ChildProps> = ({phone}) => {
         },
         onSubmit: async () => {
             if (formik.values.password===formik.values.confirmPassword) {
-                const SignUpData = {phone:phone ,password: `${formik.values.password}`}
-                console.log(SignUpData);
+                // const SignUpData = {phone:'12' ,password: `${formik.values.password}`}
+                // console.log(SignUpData);
                 
-                try {
-                    await signup({
-                        variables:{
-                            input: SignUpData,
-                        }
-                    })
-                } catch (error) {
-                    console.log(error);
-                    
-                }
-                toast.success('Password created')
+                // try {
+                //     await signup({
+                //         variables:{
+                //             input: SignUpData,
+                //         }
+                //     })
+                // } catch (error) {
+                //     console.log(error);
+                // }
+                // toast.success('Password created')
                 console.log(formik.values);
+                password(formik.values.confirmPassword);
+                status(false)
                 // setState(formik.values.password);
             }
             if(formik.values.password!==formik.values.confirmPassword){

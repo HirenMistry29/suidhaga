@@ -4,6 +4,7 @@ import {
   ApolloClient,
   ApolloLink,
   HttpLink,
+  InMemoryCache
 } from "@apollo/client";
 import {
   NextSSRApolloClient,
@@ -20,6 +21,7 @@ function makeClient() {
 
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
+    credentials: 'include',
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
