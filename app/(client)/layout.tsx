@@ -24,7 +24,7 @@ export default function HomeLayout({
         </div>
         <div className="">
         <div className='flex flex-row justify-between  gap-2'>
-                <div className='bg-red-600  h-full p-4 shadow-xl' style={{width:'22%', background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '20px'}}>Connect Components 
+                <div className='bg-red-600  h-full p-4 shadow-xl' style={{width:'22%', background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '46px'}}>Connect Components 
                     <div className='bottom-0'>Bugs</div>
                 </div>
                 <div className=" h-full shadow-lg] flex flex-col gap-2" style={{width:'80%' , /*marginLeft:'21%'*/}}>
@@ -33,7 +33,7 @@ export default function HomeLayout({
                     {children}
                   </div>
                 </div>
-                <div className='text-red-700 font-bold right-0  p-4 shadow-xl' style={{width:'22%' , background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '20px' , }}>Latest News</div>
+                <div className='text-red-700 font-bold right-0  p-4 shadow-xl' style={{width:'22%' , background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '46px' , }}>Latest News</div>
             </div>
         </div>
         </div>
