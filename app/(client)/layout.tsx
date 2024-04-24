@@ -24,16 +24,20 @@ export default function HomeLayout({
         </div>
         <div className="">
         <div className='flex flex-row justify-between  gap-2'>
-                <div className='bg-red-600  h-full p-4 shadow-xl' style={{width:'22%', background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '46px'}}>Connect Components 
+                <div className='bg-red-600  h-full p-4 shadow-xl' style={{width:'42%', background:'white' ,height: 'calc(100vh - 55px)' , position:'sticky',top: '55px'}}>Connect Components 
                     <div className='bottom-0'>Bugs</div>
                 </div>
-                <div className=" h-full shadow-lg] flex flex-col gap-2" style={{width:'80%' , /*marginLeft:'21%'*/}}>
+                <div className=" flex justify-center flex-col">
+                <div className=" " style={{width:'100%' ,height: 'calc(12vh - 55px)' , position:'sticky',top: '55px' /*marginLeft:'21%'*/}}>
                   <TopNavbar/>
-                  <div className='bg-white p-[2%] w-full' style={{width:'100%' , /*marginLeft:'21%'*/}}>
-                    {children}
-                  </div>
                 </div>
-                <div className='text-red-700 font-bold right-0  p-4 shadow-xl' style={{width:'22%' , background:'white' ,height: 'calc(100vh - 50px)' , position:'sticky',top: '46px' , }}>Latest News</div>
+                    <div className="flex justify-center" style={{ width: '100%', height: 'calc(143vh - 100px' , top: '220px' /*marginLeft:'21%'*/ }}>
+                      <div className="shadow-lg] flex flex-col " >
+                        {children}
+                      </div>
+                    </div>
+                </div>
+                <div className='text-red-700 font-bold right-0  p-4 shadow-xl' style={{width:'42%' , background:'white' ,height: 'calc(100vh - 55px)' , position:'sticky',top: '55px' , }}>Latest News</div>
             </div>
         </div>
         </div>

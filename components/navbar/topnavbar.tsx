@@ -12,7 +12,7 @@ const TopNavbar = () => {
   console.log(window.location.href);
 
   return (
-    <div className={`bg-white w-[100%] ${inter.className} font-semibold`}>
+    <div className={`bg-white w-[100%] ${inter.className} font-semibold `}>
       <ul className='flex flex-row gap-[3%] justify-center'>
         <li className={`cursor-pointer hover:text-gray-700 text-gray-500 ${(href==='http://localhost:3000/jobs') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/jobs')}}>Job</li>
         <li>|</li>
