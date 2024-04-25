@@ -8,7 +8,8 @@ import TopNavbar from "@/components/navbar/topnavbar";
 import LeftNavBar from "@/components/navbar/leftNavBar";
 import Createjob from "@/components/forms/createjob";
 import CreatePost from "@/components/forms/createpost";
-
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
+import { useQuery } from "@apollo/client";
 
 export default function HomeLayout({
     children, // will be a page or nested layout
@@ -19,7 +20,14 @@ export default function HomeLayout({
     const[jobApplicationVisibility , SetJobApplicationVisibility] = useState<boolean>(false);
     const[postApplicationVisibility , SetPostApplicationVisibility] = useState<boolean>(false);
     console.log(jobApplicationVisibility);
+    const{data , loading , error} = useQuery(GET_AUTHENTICATED_USER);
+    console.log(`authenticated user : `, data );
+    console.log(error);
+    console.log(`loading : `,loading);
     
+    
+    
+
     return (
       <>
       <LoadingProvider>

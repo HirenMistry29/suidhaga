@@ -32,7 +32,11 @@ export default function RootLayout({
     
   },[pathname,searchParams])
 
-
+  const client = new ApolloClient({
+    uri: 'http://localhost:8080/graphql',
+    cache: new InMemoryCache,
+    credentials: 'include',
+  })
 
 
 
@@ -44,7 +48,8 @@ export default function RootLayout({
       <body className={`overflow-x-hidden ${inter.className}`}>
         {/* <div className=""> <Header/> </div> */}
         <div className={`${pathname==='/home' &&' pt-[3.5%]'}`}>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          {/* <ApolloWrapper>{children}</ApolloWrapper> */}
+          <ApolloProvider client={client}>{children}</ApolloProvider>
          <Toaster position="bottom-right" toastOptions={{duration:2500}}/>
         </div>
       </body>
