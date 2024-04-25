@@ -11,7 +11,7 @@ export default function Home() {
   
   return (
     <>
-    <div className="text-xl">click here to visit home page<span className="cursor-pointer ml-1" onClick={()=>router('/home')}>HOME</span> </div>
+    <div className="text-xl">click here to visit home page<span className="cursor-pointer ml-1" onClick={()=>router('/jobs')}>HOME</span> </div>
 
     </>
   );
