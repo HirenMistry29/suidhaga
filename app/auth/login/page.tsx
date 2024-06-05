@@ -27,7 +27,7 @@ const Login = () => {
   const[login , {loading , error} ] = useMutation(LOGIN);
   
   async function handleSubmit(){
-    const loginData = {username : 'Hiren' , password : password}
+    const loginData = { username: 'Hiren Mistry', password : password}
     console.log(loginData);
     try {
       login({
@@ -36,7 +36,7 @@ const Login = () => {
         }
       }).then(()=>{
         toast.success(`User Logged In`) 
-        router.push('/home')
+        router.push('/jobs')
       }).catch((err)=>{toast.error(err.message)})
     } catch (error:any) {
       console.log(error);
