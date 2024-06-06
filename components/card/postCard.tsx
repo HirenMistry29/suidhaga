@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image'; 
 import { LikeOutlined,CommentOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import CommentCard from './commentCard';
 
 interface ChildProp {
     imageSrc    :StaticImport,
@@ -16,7 +17,9 @@ interface ChildProp {
 
 
 
-const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price }) => (
+const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price }) => {
+  const[isOpen , setIsOpen] = useState<boolean>(false);
+  return(
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full'>
     <div className='flex flex-col md:flex-row'>
     <div className='md:w-2/5 lg:w-[80%] '>
@@ -53,7 +56,7 @@ const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size
             <span onClick={() => toast.success(`Post Liked`)}>
               <LikeOutlined className='text-3xl px-2 hover:text-[#A72447] cursor-pointer' />
             </span>
-            <CommentOutlined className='text-3xl px-2 hover:text-[#A72447] cursor-pointer' />
+            <CommentOutlined onClick={()=>setIsOpen(true)} className='text-3xl px-2 hover:text-[#A72447] cursor-pointer' />
             <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'>
               Buy
             </button>
@@ -61,7 +64,8 @@ const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size
         </div>
       </div>
     </div>
+  <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`}/></div>
   </div>
 );
-
+}
 export default ProductCard;
