@@ -1,24 +1,34 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 const TopNavbar = () => {
 
   const router = useRouter()
   const href = window.location.href;
-  console.log(window.location.href);
+
+  useEffect(() => {
+    setInterval(() => {
+      const href = window.location.href
+    },2000)
+    return () => {
+      clearInterval( href)
+    }
+  },[2000])
+
 
   return (
     <div className={`bg-white w-[100%] ${inter.className} font-semibold`}>
       <ul className='flex flex-row gap-[3%] justify-center'>
         <li className={`cursor-pointer hover:text-gray-700 text-gray-500 ${(href==='http://localhost:3000/jobs') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/jobs')}}>Job</li>
         <li>|</li>
-        <li className='cursor-pointer hover:text-gray-700 text-gray-500 ' onClick={()=>{router.push('/posts')}}>Post</li>
+        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/posts') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/posts')}}>Post</li>
         <li>|</li>
-        <li className='cursor-pointer hover:text-gray-700 text-gray-500' onClick={()=>{router.push('/account')}}>Account</li>
+        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/account') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/account')}}>Account</li>
       </ul>
     </div>  
   )

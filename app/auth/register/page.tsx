@@ -37,32 +37,33 @@ export default function Register() {
    const[ Namefocus, setNameFocus ] = useState('');
    const[ Emailfocus , setEmailFocus ] = useState('');
    const router = useRouter();
-
+   const[verified,setVerified]  = useState<Boolean>(false);
    
    
    
     
-//    const sendOtp = async () => {
-//     try {
-//         const recaptchaVerifier = new RecaptchaVerifier(auth,'recaptchaVerifier', {})
-//         const confirmation = await signInWithPhoneNumber(auth, phone , recaptchaVerifier)
-//         setUser(confirmation) 
-//     } catch (error) {
-//         console.log(error);   
-//     }
-//    }
+   const sendOtp = async () => {
+    try {
+        const recaptchaVerifier = new RecaptchaVerifier(auth,'recaptchaVerifier', {})
+        const confirmation = await signInWithPhoneNumber(auth, phone , recaptchaVerifier)
+        setUser(confirmation) 
+    } catch (error) {
+        console.log(error);   
+    }
+   }
 
    async function verifyUser(){
-    // try {
-    //     const data = await user?.confirm(otp);
-    //     console.log(data);
-    //     setStatus(true);
-    //     setPhoneStatus(false)
-    //     // if(data){
-    //     //     router.push('/home');
-    //     // }
+    try {
+        const data = await user?.confirm(otp);
+        console.log(data);
+        setStatus(true);
+        setPhoneStatus(false)
+        // if(data){
+        //     router.push('/home');
+        // }
+        setVerified(true);
         
-    // } catch (err) {    console.log(err)    }
+    } catch (err) {    console.log(err)    }
     setStatus(true);
     setPhoneStatus(false)
    }
@@ -74,6 +75,7 @@ export default function Register() {
         },
         onSubmit: async () => {
             // console.log(formik.values);
+        if(verified) {
             setUserDetail({name:` ${formik.values.name} `, email: `${formik.values.email}`})
             const signUpData = { phone: phone, password: password, username: `${formik.values.name}`, email: `${formik.values.email}` }
             console.log(signUpData);
@@ -85,12 +87,13 @@ export default function Register() {
                     }
                 })
                     .then(() => toast.success(`User Created`))
-                    .then(()=>router.push(`/home`))
+                    .then(()=>router.push(`/jobs`))
                     .catch((err) => { console.log(error) , toast.error(err?.message)})
             } catch (err) {
                 toast.error(`error signing in`)
                 console.log(err);
             }
+        }
         },
         validationSchema: yup.object({  
           name:     yup.string().required('field is required'),
@@ -119,11 +122,11 @@ export default function Register() {
                           disableDropdown	
                       />
                   </div>
-                  {/* <div className="w-1/3 flex flex-col justify-center">
+                  <div className="w-1/3 flex flex-col justify-center">
                       <div className="flex justify-center">
                           <div id='send_otp_button' className='px-[5%] py-[1%] bg-[#C84869] text-white mt-[2%] rounded-md cursor-pointer' onClick={sendOtp}> Send OTP</div>
                       </div>
-                  </div> */}
+                  </div>
                   <div id='recaptchaVerifier' className='mt-[2%]'></div>
                   <div className="w-1/3 mt-[4%]">
                   <div className='flex justify-center items-center'>

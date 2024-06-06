@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import {auth} from "@/firebase/setup";
 import { signOut } from "firebase/auth";
 import toast from "react-hot-toast";
@@ -7,11 +7,15 @@ import { useNavigate } from '@/hooks/useRoute';
 import { useMutation } from "@apollo/client";
 import { LOGOUT } from "@/graphql/mutations/users.mutations";
 
-const Header = () => {
+interface ChildProp {
+    userType : String
+}
+
+
+const Header:React.FC<ChildProp> = ({userType}) => {
 
     const route = useNavigate();
     const[logout , {loading}] = useMutation(LOGOUT);
-
     const logOut= async()=>{
         try {
            await logout().then(()=>{toast.success(`user logged out`)})
@@ -32,6 +36,8 @@ const Header = () => {
                     Suidhaga
                 </div>
                 <div className="flex flex-row gap-4">
+                    { userType==='Admin' && <span className="flex flex-row gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
+                    <span>|</span></span> }
                     <span onClick={()=>route('/auth/login')} className="cursor-pointer hover:text-[#C7C7C7] ">login</span>
                     <span>|</span>
                     <span onClick={logOut} className="cursor-pointer hover:text-[#c7c7c7] ">logout</span>
