@@ -1,6 +1,11 @@
 import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useMutation } from '@apollo/client';
+import { ADD_POST } from '@/graphql/mutations/addPost.mutations';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
 
 interface AddJobCardProps {
   isOpen: boolean;
@@ -8,9 +13,9 @@ interface AddJobCardProps {
 }
 
 const AddPostCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
-  const initialRef = useRef<HTMLInputElement>(null);
-  const finalRef = useRef<HTMLInputElement>(null);
 
+  const[createPost , { loading, error}] = useMutation(ADD_POST)
+  const router = useRouter()
   const formik = useFormik({
     initialValues: {
       jobTitle: '',
@@ -22,12 +27,27 @@ const AddPostCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
     validationSchema: Yup.object({
       jobTitle: Yup.string().required('Required'),
       jobDescription: Yup.string().required('Required'),
-      amount: Yup.number().required('Required'),
-      numOfApplicants: Yup.number().required('Required'),
     }),
     onSubmit: (values) => {
       console.log(values);
+      toast.success(`Success`)
       onClose();
+      const postInput = {title:values.jobTitle , description:values.jobDescription , createdAt : '04-05-2024'}
+      console.log(postInput);
+      
+      try {
+        createPost({
+            variables: {
+                input: postInput,
+            }
+        })
+            .then(() => toast.success(`Post Created`))
+            .then(()=>router.push(`/posts`))
+            .catch((err) => { console.log(error) , toast.error(err?.message)})
+    } catch (err) {
+        toast.error(`error creating Post`)
+        console.log(err);
+    }
     },
   });
 

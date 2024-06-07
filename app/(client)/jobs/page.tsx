@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '@/components/card/postCard';
 import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif'
 import JobCard from '@/components/card/jobCard';
@@ -7,13 +7,31 @@ import { useQuery } from '@apollo/client';
 import { GET_JOBS } from '@/graphql/queries/jobs.queries';
 
 const Job = () => {
-  const{data,loading,error} = useQuery(GET_JOBS)
-  console.log(data);
+  const{data,loading,error} = useQuery(GET_JOBS)  
+  const[jobs , setJobs] = useState([]);
   
+  useEffect(()=>{
+    if(data){
+      // console.log(data.jobs);
+      setJobs(data.jobs)
+    }    
+  },[data])
+  
+  // useEffect(()=>{
+  //   console.log(jobs);
+  // },[jobs])
+ 
   return (
     <div>
-        <JobCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'2999'}/>
-        <JobCard imageSrc={NewImage} title={'Shirt'} details={'A Formal Shirt'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'1800'}/>
+      {jobs && jobs.map((job : any)=>(
+        <div key={job}> 
+          <JobCard imageSrc={NewImage} title={job?.title} details={job?.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={job?.amount}/>
+        </div>  
+      ))}
+
+      {/* -----JobCard Static Data Demo-----  */}
+        {/* <JobCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'2999'}/>
+        <JobCard imageSrc={NewImage} title={'Shirt'} details={'A Formal Shirt'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'1800'}/> */}
     </div>
   )
 }
