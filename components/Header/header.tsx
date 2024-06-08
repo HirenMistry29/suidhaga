@@ -1,5 +1,7 @@
 "use client"
 import React, { useState } from "react";
+import logo from "@/public/image/logo.jpg";
+import Image from "next/image";
 import {auth} from "@/firebase/setup";
 import { signOut } from "firebase/auth";
 import toast from "react-hot-toast";
@@ -32,8 +34,11 @@ const Header:React.FC<ChildProp> = ({userType}) => {
     return(
         <>
             <div className="fixed top-0 flex flex-row w-screen bg-gradient-to-r from-[#00154F] to-[#1743B9] via-[#172651] px-[2%] py-[0.7%] justify-between text-white">
-                <div className="font-bold text-xl">
-                    Suidhaga
+                <div className="flex flex-row h-[3%] w-[3%]">
+                    <Image src={logo} alt=""/>
+                    <div className="font-bold text-xl mx-[30%]">
+                    Akshaydhaga
+                </div>
                 </div>
                 <div className="flex flex-row gap-4">
                     { userType==='Admin' && <span className="flex flex-row gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>

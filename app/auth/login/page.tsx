@@ -59,7 +59,7 @@ const Login = () => {
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white sm:p-[3%] xs:max-sm:py-[8%] xs:max-sm:px-[4%]  shadow-2xl w-[70%] h-[60%]">
                   <span className={`${SansitaBold.className} text-xl md:text-2xl lg:text-3xl  text-[#333333] flex xs:place-content-center sm:place-content-center md:place-content-start`}>Login To Your Account</span>
                   <form className={`flex flex-col w-[35%]`}>
-                  <div className='mt-[4%]'> 
+                  <div className='mt-[4%] w-[88%]' > 
                       <PhoneInput
                           country={'in'}
                           value={phone}
