@@ -21,14 +21,17 @@ export default function HomeLayout({
 
     const[jobApplicationVisibility , SetJobApplicationVisibility] = useState<boolean>(false);
     const[postApplicationVisibility , SetPostApplicationVisibility] = useState<boolean>(false);
+    const[id , setId] = useState()
     const{data , loading , error} = useQuery(GET_AUTHENTICATED_USER);
     const router = useRouter();
     // console.log(`authenticated user : `, data?.authUser.userType );
     console.log(data);
     
-    
-
-    
+    useEffect(()=>{
+      if(data?.authUser){
+        setId(data?.authUser._id)
+      }
+    },[data?.authUser])
     
 
     return (

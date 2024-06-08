@@ -1,42 +1,56 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/navigation';
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
+import { useQuery } from "@apollo/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 const TopNavbar = () => {
-
-  const router = useRouter()
-  const href = window.location.href;
+  const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
+  const router = useRouter();
+  const [accountId, setAccountId] = useState<string | undefined>();
 
   useEffect(() => {
-    setInterval(() => {
-      const href = window.location.href
-    },2000)
-    return () => {
-      clearInterval( href)
+    if (!loading && data?.authUser?._id) {
+      const userAccountId = data.authUser._id;
+      console.log(userAccountId);
+      setAccountId(userAccountId);
     }
-  },[2000])
+  }, [data, loading]);
 
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className={`bg-white w-[100%] ${inter.className} font-semibold pt-1 px-1`}>
       <ul className='flex flex-row gap-[3%] justify-center'>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500 ${(href==='http://localhost:3000/jobs') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/jobs')}}>Job</li>
+        <li
+          className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === 'http://localhost:3000/jobs' ? 'text-red-600' : 'text-gray-500'}`}
+          onClick={() => { router.push('/jobs') }}
+        >
+          Job
+        </li>
         <li>|</li>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/posts') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/posts')}}>Post</li>
+        <li
+          className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === 'http://localhost:3000/posts' ? 'text-red-600' : 'text-gray-500'}`}
+          onClick={() => { router.push('/posts') }}
+        >
+          Post
+        </li>
         <li>|</li>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/account') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/account')}}>Account</li>
+        <li
+          className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === `http://localhost:3000/account/${accountId}` ? 'text-red-600' : 'text-gray-500'}`}
+          onClick={() => { accountId && router.push(`/account/${accountId}`) }}
+        >
+          Account
+        </li>
       </ul>
-    </div>  
-  )
+    </div>
+  );
 }
 
 export default TopNavbar;
-
-//! 1. If the user is on './posts' and he clicks on posts , the page should refresh , user router.refresh
-//! 2. The Color of the navigation should be [#961638] for each respective page
-//! 3. Replace the " | " with the logo of standing line
-//! 4. remove the bottom white space , center the nav bar and add appropriate padding
