@@ -91,7 +91,7 @@
 //               name="confirmPassword"
 //               type="text"
 //               minLength={8}
-//               placeholder="password"
+//               placeholder="password"35
 //               value={formik.values.confirmPassword}
 //               onChange={formik.handleChange}
 //               onBlur={formik.handleBlur}
