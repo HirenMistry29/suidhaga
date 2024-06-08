@@ -4,7 +4,7 @@ import ChatUserlayout from './layout';
 const ChatUser = () => {
   return (
     <div >
-      <div className='font-semibold text-gray-700 text-sm'>Messages</div>
+      <div className='font-semibold text-gray-700 text-sm'>Notifications</div>
       <div className='mt-[5%] flex flex-col gap-2'>
         <ChatUserlayout userName={'Sarth'} newMessages='3'/>
         <ChatUserlayout userName={'Nilay'} newMessages='1'/>

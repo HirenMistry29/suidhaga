@@ -22,13 +22,13 @@ const TopNavbar = () => {
 
 
   return (
-    <div className={`bg-white w-[100%] ${inter.className} font-semibold`}>
-      <ul className='flex flex-row gap-[3%] justify-center'>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500 ${(href==='http://localhost:3000/jobs') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/jobs')}}>Job</li>
+    <div className={`justify-center bg-white font-semibold items-start w-full rounded-sm ${inter.className}`}>
+      <ul className='flex flex-row gap-[10%] justify-center '>
+        <li className={`cursor-pointer text-gray-700 hover:text-gray-500 ${(href==='http://localhost:3000/jobs') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/jobs')}}>Job</li>
         <li>|</li>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/posts') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/posts')}}>Post</li>
+        <li className={`cursor-pointer text-gray-700  hover:text-gray-500  ${(href==='http://localhost:3000/posts') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/posts')}}>Post</li>
         <li>|</li>
-        <li className={`cursor-pointer hover:text-gray-700 text-gray-500  ${(href==='http://localhost:3000/account') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/account')}}>Account</li>
+        <li className={`cursor-pointer text-gray-700 hover:text-gray-500  ${(href==='http://localhost:3000/account') ? 'text-red-600' : 'text-gray-500' }`} onClick={()=>{router.push('/account')}}>Account</li>
       </ul>
     </div>  
   )
