@@ -45,7 +45,7 @@ export default function HomeLayout({
             <div className="">
               <div className="flex flex-row justify-between gap-2 w-[100%]">
                 <div
-                  className="sm:hidden bg-red-600 h-full p-4 shadow-xl"
+                  className="bg-red-600 h-full p-4 shadow-xl"
                   style={{
                     width: "20%",
                     background: "white",
