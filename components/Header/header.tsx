@@ -15,6 +15,12 @@ interface ChildProp {
 
 
 const Header:React.FC<ChildProp> = ({userType}) => {
+interface ChildProp {
+    userType : String
+}
+
+
+const Header:React.FC<ChildProp> = ({userType}) => {
 
     const route = useNavigate();
     const[logout , {loading}] = useMutation(LOGOUT);
@@ -41,6 +47,8 @@ const Header:React.FC<ChildProp> = ({userType}) => {
                 </div>
                 </div>
                 <div className="flex flex-row gap-4">
+                    { userType==='Admin' && <span className="flex flex-row gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
+                    <span>|</span></span> }
                     { userType==='Admin' && <span className="flex flex-row gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
                     <span>|</span></span> }
                     <span onClick={()=>route('/auth/login')} className="cursor-pointer hover:text-[#C7C7C7] ">login</span>

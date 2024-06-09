@@ -38,6 +38,7 @@ export default function AdminHome({
 
   return (
     <>
+    <div className="flex flex-col">
       <HeaderH userType={userType} />
       <Layout className="mt-[3%] h-screen w-full overflow-hidden fixed">
         {/* <Sider collapsed={collapsed} trigger={null} className="text-[#fff] ">
@@ -69,7 +70,7 @@ export default function AdminHome({
               <Link className="p-1" href="https://www.idf.org.in" passHref>
                 {/* <Image className='w-10 h-12 ' src={logo} alt='idf-logo.png' /> */}
               </Link>
-              <div className=" justify-normal ">Akshay Shakti</div>
+              <div className=" justify-normal ">IDF</div>
             </div>
             <div className="flex flex-row gap-5 mr-[3%] text-base font-semibold">
               <div className="cursor-pointer" onClick={signOut}>
@@ -80,6 +81,7 @@ export default function AdminHome({
           <div className="bg-white m-[1%]">{children}</div>
         </Layout>
       </Layout>
+      </div>
     </>
   );
 }

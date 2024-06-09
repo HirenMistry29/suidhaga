@@ -12,6 +12,12 @@ import { useRouter } from "next/navigation";
 import ChatUser from "@/components/ChatUser/dm";
 import AddJobCard from "@/components/card/jobForm";
 import AddPostCard from "@/components/card/postForm";
+import Sider from "antd/es/layout/Sider";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { FloatButton } from 'antd';
+
+
 
 export default function HomeLayout({
   children, // will be a page or nested layout
@@ -39,15 +45,15 @@ export default function HomeLayout({
           <div className="">
             <div id="header" className="h-20 justify-center">
               <div className="bg-white h-[90%] w-screen flex justify-center p-[0.4%] z-50">
-                  <Image className="w-[20%] py-2" src={logo} alt="" />
+                <Image src={IDF} alt="" />
               </div>
             </div>
             <div className="">
               <div className="flex flex-row justify-between gap-2 w-[100%]">
                 <div
-                  className="bg-red-600 h-full p-4 shadow-xl"
+                  className="bg-red-600 h-full p-4 shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block xs:hidden"
                   style={{
-                    width: "20%",
+                   
                     background: "white",
                     height: "calc(100vh - 55px)",
                     position: "sticky",
@@ -62,7 +68,7 @@ export default function HomeLayout({
                   </div>
                 </div>
 
-                <div className="h-full" style={{ width: "60%" }}>
+                <div className="h-full lg:w-[60%]  xs:w-screen lg:m-0 md:m-5 xs:m-3 ">
                   <span style={{ position: "sticky", top: "55px" }}>
                     <TopNavbar />
                   </span>
@@ -75,12 +81,15 @@ export default function HomeLayout({
                     isOpen={postApplicationVisibility}
                     onClose={() => SetPostApplicationVisibility(false)}
                   />
+                
+                </div>
+                <div className="flex bottom-0  w-screen fixed justify-center lg:hidden bg-blue-500 rounded-md py-2 shadow-2xl shadow-blue-500  h-12" >
+                  <Button className="border-solid border-blue-500 border-2 rounded-full w-[100%] bottom-8 p-4  " icon={<PlusOutlined className="text-blue-500"/>}></Button>
                 </div>
 
                 <div
-                  className="text-gray-800 right-0 p-[1%] shadow-xl"
+                  className="text-gray-800 right-0 p-[1%] shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block  xs:hidden"
                   style={{
-                    width: "20%",
                     background: "white",
                     height: "calc(100vh - 55px)",
                     position: "sticky",

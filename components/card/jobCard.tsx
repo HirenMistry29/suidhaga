@@ -22,7 +22,7 @@ const JobCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, qu
       <div className='md:w-2/5 lg:w-[80%] '>
         <Image
           alt='ecommerce'
-          className='w-full object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none  h-[100%]'
+          className='w-full object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none h-[100%]'
           src={imageSrc}
         />
       </div>
