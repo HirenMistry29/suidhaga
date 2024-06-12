@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import IDF from "@/public/svgs/header.svg";
+import logo from "@/public/image/main-logo.jpg";
 import Image from "next/image";
 import Header from "@/components/Header/header";
 import { LoadingProvider } from "@/context/loading";
@@ -45,7 +45,7 @@ export default function HomeLayout({
           <div className="">
             <div id="header" className="h-20 justify-center">
               <div className="bg-white h-[90%] w-screen flex justify-center p-[0.4%] z-50">
-                <Image src={IDF} alt="" />
+              <Image className="w-[20%] py-2" src={logo} alt="" />
               </div>
             </div>
             <div className="">

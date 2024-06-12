@@ -21,10 +21,9 @@ const SansitaBold = Sansita({
 });
 
 const Login = () => {
-
-  const[phone , setPhone]              = useState('');
-  const[password , setPassword]        = useState('');
-  const[passwordVisible,setPasswordVisible] =  useState(false);
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const [login, { loading, error }] = useMutation(LOGIN);
 
