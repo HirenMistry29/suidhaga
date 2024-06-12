@@ -20,18 +20,25 @@ import { FloatButton } from 'antd';
 
 
 export default function HomeLayout({
-  children, // will be a page or nested layout
-}: {
-  children: React.ReactNode;
-}) {
-  const [jobApplicationVisibility, SetJobApplicationVisibility] =
-    useState<boolean>(false);
-  const [postApplicationVisibility, SetPostApplicationVisibility] =
-    useState<boolean>(false);
-  const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
-  const router = useRouter();
-  // console.log(`authenticated user : `, data?.authUser.userType );
-  console.log(data);
+    children, // will be a page or nested layout
+  }: {
+    children: React.ReactNode
+  }) {
+
+    const[jobApplicationVisibility , SetJobApplicationVisibility] = useState<boolean>(false);
+    const[postApplicationVisibility , SetPostApplicationVisibility] = useState<boolean>(false);
+    const[id , setId] = useState()
+    const{data , loading , error} = useQuery(GET_AUTHENTICATED_USER);
+    const router = useRouter();
+    // console.log(`authenticated user : `, data?.authUser.userType );
+    console.log(data);
+    
+    useEffect(()=>{
+      if(data?.authUser){
+        setId(data?.authUser._id)
+      }
+    },[data?.authUser])
+    
 
   return (
     <>

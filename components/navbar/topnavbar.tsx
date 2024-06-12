@@ -7,7 +7,6 @@ import { useQuery } from "@apollo/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 const TopNavbar = () => {
   const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
   const router = useRouter();
