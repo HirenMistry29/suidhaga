@@ -1,12 +1,20 @@
 "use client";
 
-import React from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useEffect } from 'react'
 import { Card, List } from "antd";
 import { Table } from "antd";
 import type { TableProps } from "antd";
+import { useQuery } from '@apollo/client';
+import { GET_ALL_USERS } from '@/graphql/queries/users.queries';
+
 
 const Users = () => {
+
+  const{data , loading , error} = useQuery(GET_ALL_USERS)
+  useEffect(()=>{
+    console.log(data);
+  },[data])
+
   interface DataType {
     id: String;
     name: String;

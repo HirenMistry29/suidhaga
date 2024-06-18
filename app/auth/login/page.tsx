@@ -28,7 +28,7 @@ const Login = () => {
   const [login, { loading, error }] = useMutation(LOGIN);
 
   async function handleSubmit() {
-    const loginData = { username: "Jay", password: password };
+    const loginData = { username: "Hiren Mistry", password: password };
     console.log(loginData);
     try {
       login({

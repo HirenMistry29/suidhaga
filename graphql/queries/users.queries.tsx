@@ -10,3 +10,13 @@ export const GET_AUTHENTICATED_USER = gql`
 		}
 	}
 `;
+
+export const GET_ALL_USERS = gql`
+    query GetAllUsers {
+        users {
+            _id
+            phone 
+			username
+		}
+	}`
+
