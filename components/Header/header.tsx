@@ -14,6 +14,12 @@ interface ChildProp {
 }
 
 
+
+interface ChildProp {
+    userType : String
+}
+
+
 const Header:React.FC<ChildProp> = ({userType}) => {
 
     const route = useNavigate();

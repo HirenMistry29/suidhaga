@@ -12,20 +12,20 @@ const Job = () => {
   
   useEffect(()=>{
     if(data){
-      // console.log(data.jobs);
       setJobs(data.jobs)
     }    
   },[data])
   
-  // useEffect(()=>{
-  //   console.log(jobs);
-  // },[jobs])
+  useEffect(()=>{
+    console.log(jobs);
+    
+  },[jobs])
  
   return (
     <div>
       {jobs && jobs.map((job : any)=>(
         <div key={job}> 
-          <JobCard imageSrc={NewImage} title={job?.title} details={job?.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={job?.amount}/>
+          <JobCard  id={job._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={job?.amount}/>
         </div>  
       ))}
 

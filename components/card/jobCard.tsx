@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { LikeOutlined,CommentOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { useRouter } from 'next/navigation';
 
 interface ChildProp {
     imageSrc    :StaticImport,
@@ -11,12 +12,18 @@ interface ChildProp {
     color       :String, 
     size        :String, 
     quantity    :String, 
-    price       :String 
+    price       :String,
+    id          :String,
 }
 
 
 
-const JobCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price }) => (
+const JobCard:React.FC<ChildProp> = ({id, imageSrc, title, details, color, size, quantity, price }) => {
+    
+  
+  const router = useRouter();
+
+  return(
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
     <div className='flex flex-col md:flex-row'>
       <div className='md:w-2/5 lg:w-[80%] '>
@@ -27,7 +34,7 @@ const JobCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, qu
         />
       </div>
       <div className='md:w-3/5 md:rounded-r-xl p-4 md:p-6'>
-        <h2 className='text-sm font-sans text-black font-bold tracking-widest text-xl mb-2'>
+        <h2 onClick={()=>router.push(`/jobs/${id}`)} className='text-sm cursor-pointer font-sans text-black font-bold tracking-widest text-xl mb-2'>
           {title}
         </h2>
         <div className='mb-4'>
@@ -63,6 +70,6 @@ const JobCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, qu
       </div>
     </div>
   </div>
-);
+);}
 
 export default JobCard;

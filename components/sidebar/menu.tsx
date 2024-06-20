@@ -63,10 +63,10 @@ export const MenuList = () => {
   const paths = [
     "/",
     "/authentication",
-    "/bulkadd",
-    "/users",
+    "/admin/bulkAdd",
+    "/admin/users",
     "/roles",
-    "/jobs",
+    "/admin/jobs",
     "/post",
     "/orders",
     "/notifications",
