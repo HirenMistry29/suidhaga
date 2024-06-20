@@ -30,7 +30,6 @@ export default function HomeLayout({
     const[id , setId] = useState()
     const{data , loading , error} = useQuery(GET_AUTHENTICATED_USER);
     const router = useRouter();
-    // console.log(`authenticated user : `, data?.authUser.userType );
     console.log(data);
     
     useEffect(()=>{

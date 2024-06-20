@@ -9,9 +9,6 @@ interface ChildProp {
     email: String,
     phone: String,
 }
-
-
-
 const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => (
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 h-screen'>
         <div className='flex flex-col justify-start mt-5'>

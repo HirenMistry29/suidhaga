@@ -12,12 +12,13 @@ interface ChildProp {
     color       :String, 
     size        :String, 
     quantity    :String, 
-    price       :String 
+    price       :String,
+    postId      :string 
 }
 
 
 
-const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price }) => {
+const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price,postId }) => {
   const[isOpen , setIsOpen] = useState<boolean>(false);
   return(
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full'>
@@ -64,7 +65,7 @@ const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size
         </div>
       </div>
     </div>
-  <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`}/></div>
+  <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`} postId={postId} body={''}/></div>
   </div>
 );
 }
