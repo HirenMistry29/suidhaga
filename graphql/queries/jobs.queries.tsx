@@ -6,6 +6,7 @@ export const GET_JOBS = gql`
 			_id
 			title
             description
+			username
 		}
 	}
 `;
