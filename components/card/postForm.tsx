@@ -5,7 +5,13 @@ import { useMutation } from '@apollo/client';
 import { ADD_POST } from '@/graphql/mutations/addPost.mutations';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-
+import {
+  Box,
+  Button,
+  Modal,
+  TextField,
+  Typography
+} from '@mui/material';
 
 interface AddJobCardProps {
   isOpen: boolean;
@@ -13,9 +19,8 @@ interface AddJobCardProps {
 }
 
 const AddPostCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
-
-  const[createPost , { loading, error}] = useMutation(ADD_POST)
-  const router = useRouter()
+  const [createPost, { loading, error }] = useMutation(ADD_POST);
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       jobTitle: '',
@@ -30,119 +35,79 @@ const AddPostCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
     }),
     onSubmit: (values) => {
       console.log(values);
-      toast.success(`Success`)
+      toast.success(`Success`);
       onClose();
-      const postInput = {title:values.jobTitle , description:values.jobDescription , createdAt : '04-05-2024'}
+      const postInput = {
+        title: values.jobTitle,
+        description: values.jobDescription,
+        createdAt: '04-05-2024',
+      };
       console.log(postInput);
-      
+
       try {
         createPost({
-            variables: {
-                input: postInput,
-            }
+          variables: {
+            input: postInput,
+          },
         })
-            .then(() => toast.success(`Post Created`))
-            .then(()=>router.push(`/posts`))
-            .catch((err) => { console.log(error) , toast.error(err?.message)})
-    } catch (err) {
-        toast.error(`error creating Post`)
+          .then(() => toast.success(`Post Created`))
+          .then(() => router.push(`/posts`))
+          .catch((err) => {
+            console.log(error), toast.error(err?.message);
+          });
+      } catch (err) {
+        toast.error(`error creating Post`);
         console.log(err);
-    }
+      }
     },
   });
 
   return (
-    <>
-      {isOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-8">
-            <form onSubmit={formik.handleSubmit}>
-              <div className="mb-4">
-                <label htmlFor="jobTitle" className="block font-bold mb-2">Post Title:</label>
-                <input
-                  id="jobTitle"
-                  type="text"
-                  className="w-full border rounded-md p-2"
-                  value={formik.values.jobTitle}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.jobTitle && formik.errors.jobTitle? (
-                  <div className="text-red-500 mt-1">{formik.errors.jobTitle}</div>
-                ) : null}
-              </div>
-              <div className="mb-4">
-                <label htmlFor="jobDescription" className="block font-bold mb-2">Post Description:</label>
-                <textarea
-                  id="jobDescription"
-                  className="w-full border rounded-md p-2"
-                  value={formik.values.jobDescription}
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.jobDescription && formik.errors.jobDescription? (
-                  <div className="text-red-500 mt-1">{formik.errors.jobDescription}</div>
-                ) : null}
-              </div>
-              {/* <div className="mb-4">
-                <label className="block font-bold mb-2">Material Provided:</label>
-                <div>
-                  <label className="mr-4">
-                    <input
-                      type="radio"
-                      name="materialProvided"
-                      value="true"
-                      className="mr-2"
-                      {...formik.getFieldProps('materialProvided')}
-                    />
-                    Yes
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="materialProvided"
-                      value="false"
-                      className="mr-2"
-                      {...formik.getFieldProps('materialProvided')}
-                    />
-                    No
-                  </label>
-                </div>
-              </div> */}
-              {/* <div className="mb-4">
-                <label htmlFor="amount" className="block font-bold mb-2">Amount:</label>
-                <input
-                  id="amount"
-                  type="number"
-                  className="w-full border rounded-md p-2"
-                  value={formik.values.amount}
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.amount && formik.errors.amount? (
-                  <div className="text-red-500 mt-1">{formik.errors.amount}</div>
-                ) : null}
-              </div>
-              <div className="mb-4">
-                <label htmlFor="numOfApplicants" className="block font-bold mb-2">Number of Applicants:</label>
-                <input
-                  id="numOfApplicants"
-                  type="number"
-                  className="w-full border rounded-md p-2"
-                  value={formik.values.numOfApplicants}
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.numOfApplicants && formik.errors.numOfApplicants? (
-                  <div className="text-red-500 mt-1">{formik.errors.numOfApplicants}</div>
-                ) : null}
-              </div> */}
-              <div className="flex justify-between">
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
-                <button type="button" className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500" onClick={onClose}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </>
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      aria-labelledby="add-post-modal-title"
+      aria-describedby="add-post-modal-description"
+    >
+      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Typography id="add-post-modal-title" variant="h5" component="h2" gutterBottom>
+          Add Post
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            id="jobTitle"
+            label="Post Title"
+            variant="outlined"
+            fullWidth
+            value={formik.values.jobTitle}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}
+            helperText={formik.touched.jobTitle && formik.errors.jobTitle}
+            margin="normal"
+          />
+          <TextField
+            id="jobDescription"
+            label="Post Description"
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
+            value={formik.values.jobDescription}
+            onChange={formik.handleChange}
+            error={formik.touched.jobDescription && Boolean(formik.errors.jobDescription)}
+            helperText={formik.touched.jobDescription && formik.errors.jobDescription}
+            margin="normal"
+          />
+          <Button type="submit" variant="contained" color="primary" disabled={loading}>
+            Submit
+          </Button>
+          <Button variant="contained" color="secondary" onClick={onClose} style={{ marginLeft: '10px' }}>
+            Cancel
+          </Button>
+        </form>
+      </Box>
+    </Modal>
   );
 };
 

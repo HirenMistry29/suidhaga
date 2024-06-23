@@ -15,67 +15,85 @@ import AddPostCard from "@/components/card/postForm";
 import Sider from "antd/es/layout/Sider";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { FloatButton } from 'antd';
-
-
+import { FloatButton } from "antd";
+import { AppBar, Toolbar, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { FileAddFilled, AppstoreFilled, ShoppingFilled, MailFilled } from "@ant-design/icons";
+import PersonIcon from '@mui/icons-material/Person';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 export default function HomeLayout({
-    children, // will be a page or nested layout
-  }: {
-    children: React.ReactNode
-  }) {
+  children, // will be a page or nested layout
+}: {
+  children: React.ReactNode;
+}) {
+  const [jobApplicationVisibility, SetJobApplicationVisibility] =
+    useState<boolean>(false);
+  const [postApplicationVisibility, SetPostApplicationVisibility] =
+    useState<boolean>(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
+  const [value, setValue] = useState(0);
+  const [id, setId] = useState();
+  const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
+  const router = useRouter();
+  console.log(data);
+  const handleChange = (_event: any, newValue: React.SetStateAction<number>) => {
+    setValue(newValue);
+  };
 
-    const[jobApplicationVisibility , SetJobApplicationVisibility] = useState<boolean>(false);
-    const[postApplicationVisibility , SetPostApplicationVisibility] = useState<boolean>(false);
-    const[id , setId] = useState()
-    const{data , loading , error} = useQuery(GET_AUTHENTICATED_USER);
-    const router = useRouter();
-    console.log(data);
-    
-    useEffect(()=>{
-      if(data?.authUser){
-        setId(data?.authUser._id)
-      }
-    },[data?.authUser])
-    
+  useEffect(() => {
+    if (data?.authUser) {
+      setId(data?.authUser._id);
+    }
+  }, [data?.authUser]);
+  const toggleNavbar = () => {
+    setIsNavbarVisible(!isNavbarVisible);
+  };
+
+  
 
   return (
     <>
       <LoadingProvider>
-        <section className={`mt-[3.2%] bg-[#D9D9D9] relative`}>
+        <section className={`flex flex-col mt-[3.2%] bg-[#D9D9D9] relative`}>
           <div className="">
             {" "}
             <Header userType={data?.authUser?.userType} />{" "}
           </div>
 
           <div className="">
-            <div id="header" className="h-20 justify-center">
+            <div id="header" className="top-10 justify-center shadow-md shadow-gray-400">
               <div className="bg-white h-[90%] w-screen flex justify-center p-[0.4%] z-50">
-              <Image className="w-[20%] py-2" src={logo} alt="" />
+                <Image className="w-[20%] pt-4 pb-2 xl:pt-3 xl:pb-2" src={logo} alt="" />
               </div>
             </div>
-            <div className="">
+            <div className="mt-2">
               <div className="flex flex-row justify-between gap-2 w-[100%]">
+                {/*left*/}
                 <div
-                  className="bg-red-600 h-full p-4 shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block xs:hidden"
+                  className="bg-red-600 h-full p-4 shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block md:hidden sm:hidden xs:hidden hidden"
                   style={{
-                   
                     background: "white",
-                    height: "calc(100vh - 55px)",
+                    height: "calc(100vh - 70px)",
                     position: "sticky",
-                    top: "55px",
+                    top: "41px",
                   }}
                 >
                   <div className=" mt-auto">
                     <LeftNavBar
                       setJobVisibility={SetJobApplicationVisibility}
                       setPostVisibility={SetPostApplicationVisibility}
+                      onUserClick={function (userId: string): void {
+                        throw new Error("Function not implemented.");
+                      }}
                     />
                   </div>
                 </div>
 
-                <div className="h-full lg:w-[60%]  xs:w-screen lg:m-0 md:m-5 xs:m-3 ">
-                  <span style={{ position: "sticky", top: "55px" }}>
+                <div className="h-full lg:w-[60%] sm:w-screen md:w-screen xs:w-screen  ">
+                  <span
+                    style={{ position: "sticky" }}
+                    className="xl:top-[41px] lg:top-[40px] md:top-[40px] top-[35px]"
+                  >
                     <TopNavbar />
                   </span>
                   <span>{children}</span>
@@ -87,19 +105,37 @@ export default function HomeLayout({
                     isOpen={postApplicationVisibility}
                     onClose={() => SetPostApplicationVisibility(false)}
                   />
-                
                 </div>
-                <div className="flex bottom-0  w-screen fixed justify-center lg:hidden bg-blue-500 rounded-md py-2 shadow-2xl shadow-blue-500  h-12" >
-                  <Button className="border-solid border-blue-500 border-2 rounded-full w-[100%] bottom-8 p-4  " icon={<PlusOutlined className="text-blue-500"/>}></Button>
+                <div className="flex bottom-0  w-screen fixed justify-center lg:hidden bg-blue-500 rounded-md py-2 shadow-2xl shadow-blue-500  h-8">
+                  <Button
+                    className="border-solid border-blue-500 border-2 rounded-full w-[100%] bottom-8 p-4  z-10 "
+                    onClick={toggleNavbar}
+                    icon={<PlusOutlined className="text-blue-500" />}
+                  ></Button>
                 </div>
+                {isNavbarVisible && (
+          
+                        <AppBar className="z-0 mx-4 w-screen gap-[5%] right-1" position="fixed" color="primary" style={{ top: 'auto', bottom: 30,zIndex: -20
+                         }}>
+                        <Toolbar>
+                          <BottomNavigation value={value} onChange={handleChange} showLabels>
+                            <BottomNavigationAction label="" icon={<FileAddFilled />} />
+                            <BottomNavigationAction label="" icon={<AppstoreFilled />} />
+                            <BottomNavigationAction label=""  />
+                            <BottomNavigationAction label="" icon={<ShoppingFilled />} />
+                            <BottomNavigationAction label="" icon={<PersonIcon />} />
+                          </BottomNavigation>
+                        </Toolbar>
+                      </AppBar>
+                )}
 
                 <div
-                  className="text-gray-800 right-0 p-[1%] shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block  xs:hidden"
+                  className="text-gray-800 right-0 p-[1%] shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block  md:hidden sm:hidden hidden"
                   style={{
                     background: "white",
-                    height: "calc(100vh - 55px)",
+                    height: "calc(100vh - 70px)",
                     position: "sticky",
-                    top: "55px",
+                    top: "41px",
                   }}
                 >
                   <ChatUser />

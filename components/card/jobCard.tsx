@@ -15,9 +15,6 @@ interface ChildProp {
     price       :String,
     id          :String,
 }
-
-
-
 const JobCard:React.FC<ChildProp> = ({id, imageSrc, title, details, color, size, quantity, price }) => {
     
   

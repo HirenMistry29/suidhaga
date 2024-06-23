@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { Layout, Button, Menu } from "antd";
@@ -36,6 +36,20 @@ export default function AdminHome({
     }
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 720) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <>
     <div className="flex flex-col">
@@ -49,7 +63,7 @@ export default function AdminHome({
           className=" overflow-auto h-screen fixed left-0  lg:top-[0px] bottom-0 md:top-[0px] top-[10px]"
           breakpoint="sm"
           trigger={null}
-        //   collapsed={collapsed}
+          collapsed={collapsed}
           collapsedWidth="55"
           onCollapse={(collapse, type) => {
             console.log(collapse, type);

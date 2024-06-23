@@ -65,7 +65,7 @@ const ProductCard:React.FC<ChildProp> = ({ imageSrc, title, details, color, size
         </div>
       </div>
     </div>
-  <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`} postId={postId} body={''}/></div>
+  <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`} postId={postId} /></div>
   </div>
 );
 }
