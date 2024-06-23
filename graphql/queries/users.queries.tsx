@@ -11,8 +11,8 @@ export const GET_AUTHENTICATED_USER = gql`
 	}
 `;
 export const GET_USERS = gql`
-  query GetUsers {
-    getUsers {
+  query users {
+    users {
       _id
       username
       email

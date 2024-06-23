@@ -18,7 +18,7 @@ interface DataType extends User {
 }
 
 const Users = () => {
-  const { data, loading, error } = useQuery<{ getUsers: User[] }>(GET_USERS);
+  const { data, loading, error } = useQuery<{ users: User[] }>(GET_USERS);
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [suggestions, setSuggestions] = useState<{ value: string }[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -28,12 +28,12 @@ const Users = () => {
   }, []);
 
   const handleSearch = (value: string) => {
-    if (data && data.getUsers) {
+    if (data && data.users) {
       let filteredUsers: User[];
       if (value.trim() === '') {
         filteredUsers = [];
       } else {
-        filteredUsers = data.getUsers.filter(user =>
+        filteredUsers = data.users.filter(user =>
           user.username.toLowerCase().startsWith(value.toLowerCase())
         );
       }
@@ -75,7 +75,7 @@ const Users = () => {
     },
   ];
 
-  let users = data?.getUsers.map((user, index) => ({
+  let users = data?.users?.map((user, index) => ({
     Sr_no: index + 1,
     ...user,
   }));
@@ -96,7 +96,7 @@ const Users = () => {
           options={suggestions}
           onSelect={handleSelect}
           onSearch={handleSearch}
-          filterOption={(inputValue, option) =>
+          filterOption={(inputValue : any, option : any) =>
             option?.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
           }
         >
@@ -112,7 +112,7 @@ const Users = () => {
         columns={columns}
         scroll={{ y: 500 }}
         loading={loading}
-        rowClassName={(record) => (record._id === selectedUserId ? 'highlight-row' : '')}
+        rowClassName={(record : any) => (record._id === selectedUserId ? 'highlight-row' : '')}
       />
     </div>
   );
