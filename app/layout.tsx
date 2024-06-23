@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSearchParams , usePathname } from "next/navigation";
 import { useEffect } from "react";
 var NProgress = require("nprogress");
-import { Suspense } from 'react'
+// import { Suspense } from 'react'
 import {Toaster} from "react-hot-toast";
 import { useQuery } from '@apollo/client';
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/users.queries"

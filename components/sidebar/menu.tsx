@@ -16,6 +16,7 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
+import { useRouter } from 'next/navigation';
 import { useQuery } from "@apollo/client";
 import Sider from "antd/es/layout/Sider";
 
@@ -42,6 +43,8 @@ export const NavigationLink: React.FC<NavLinkProps> = ({ href, children }) => {
 };
 
 export const MenuList = () => {
+  const router = useRouter();
+
   const labels = [
       "Home",
       "Authentication",
@@ -56,6 +59,21 @@ export const MenuList = () => {
       "Settings",
       "Bugs",
       "Profile",
+  ];
+  const paths = [
+    "/",
+    "/authentication",
+    "/admin/bulkAdd",
+    "/admin/users",
+    "/roles",
+    "/admin/jobs",
+    "/post",
+    "/orders",
+    "/notifications",
+    "/payments",
+    "/settings",
+    "/bugs",
+    "/profile",
   ];
 
   const icons = [
@@ -74,7 +92,15 @@ export const MenuList = () => {
     key: String(index + 1),
     icon: React.createElement(icon),
     label: labels[index],
+    path: paths[index],
   }));
+
+  const handleMenuClick = (e: any) => {
+    const clickedItem = icons.find(item => item.key === e.key);
+    if (clickedItem) {
+      router.push(clickedItem.path);
+    }
+  };
 
   return (
     <Menu
@@ -82,6 +108,7 @@ export const MenuList = () => {
       mode="inline"
       defaultSelectedKeys={["1"]}
       items={icons}
+      onClick={handleMenuClick}
       className="flex flex-col h-screen text-[0.9rem] pt-[10%] bg-[#00154F]"
     />
   );
