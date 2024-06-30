@@ -37,10 +37,10 @@ const Job: React.FC = () => {
       if (data && data.updateJobStatus) {
         message.success('Job status updated successfully');
       } else {
-          // message.error('Job not found');
+          message.error('Job not found');
       }
     } catch (error) {
-      // message.error('Failed to update job status');
+      message.error('Failed to update job status');
     }
   };
 
