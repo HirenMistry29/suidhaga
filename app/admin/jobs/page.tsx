@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
-import { Table, Skeleton, Avatar } from "antd";
+import { useMutation, useQuery } from "@apollo/client";
+import { Table, Skeleton, Avatar, AutoComplete, Input, message } from "antd";
 import { GET_JOBS } from "@/graphql/queries/jobs.queries";
-import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif';
+import NewImage from "@/public/image/photo-1584184924103-e310d9dc82fc.avif";
+import { DELETE_JOB } from "@/graphql/mutations/deleteJob.mutation";
+
+const { Search } = Input;
 
 interface Job {
   id: string;
@@ -15,68 +18,107 @@ interface Job {
 }
 
 const Job: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_JOBS);
-  const [list, setList] = useState<Job[]>([]);
+  const { loading, error, data } = useQuery<{ jobs: Job[] }>(GET_JOBS);
+  const [searchResults, setSearchResults] = useState<Job[]>([]);
+  const [suggestions, setSuggestions] = useState<{ value: string }[]>([]);
+  const [deleteJob] = useMutation(DELETE_JOB);
 
   useEffect(() => {
     if (data && data.jobs) {
-      setList(data.jobs);
+      setSearchResults(data.jobs);
+      setSuggestions(data.jobs.map((job) => ({ value: job.title })));
     }
   }, [data]);
+
+  const handleDelete = async (id: string) => {
+    console.log(id);
+    try {
+      await deleteJob({ variables: { jobId: id } });
+      message.success("Job deleted successfully");
+      // Optionally, refetch the data after deletion
+      // client.reFetchQueries({ include: ['jobs'] });
+    } catch (error) {
+      message.error("Failed to delete job");
+      console.error("Error deleting job:", error);
+    }
+  };
+
+  const handleSearch = (value: string) => {
+    if (data && data.jobs) {
+      const filteredJobs =
+        value.trim() === ""
+          ? data.jobs
+          : data.jobs.filter(
+              (job) =>
+                job.title.toLowerCase().includes(value.toLowerCase()) ||
+                job.username.toLowerCase().includes(value.toLowerCase())
+            );
+      setSearchResults(filteredJobs);
+      setSuggestions(filteredJobs.map((job) => ({ value: job.title })));
+    }
+  };
 
   if (loading) return <Skeleton active />;
   if (error) return <p>Error: {error.message}</p>;
 
   const columns = [
     {
-      title: 'Avatar',
-      dataIndex: 'avatar',
-      key: 'avatar',
+      title: "Avatar",
+      dataIndex: "avatar",
+      key: "avatar",
       render: () => <Avatar src={NewImage.src} />,
     },
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
     },
     {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
     },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (text: any, record: Job) => (
-        <>
-          <a>Edit</a>
-          <br />
-          <a>More</a>
-        </>
+        <a onClick={() => handleDelete(record.id)}>Delete</a>
       ),
     },
   ];
 
   return (
     <div className="overflow-auto">
+      <div className="px-3 py-2">
+        <AutoComplete
+          className="bg-gray-200 rounded-sm w-full"
+          options={suggestions}
+          onSearch={handleSearch}
+          filterOption={(inputValue, option) =>
+            option?.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
+          }
+        >
+          <Search placeholder="Search by title or username" enterButton />
+        </AutoComplete>
+      </div>
       <Table
         bordered
-        dataSource={list}
+        dataSource={searchResults}
         columns={columns}
         rowKey="id"
         pagination={false}

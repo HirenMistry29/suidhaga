@@ -65,7 +65,7 @@ export const MenuList = () => {
     "/authentication",
     "/admin/bulkAdd",
     "/admin/users",
-    "/roles",
+    "/admin/roles",
     "/admin/jobs",
     "/post",
     "/orders",

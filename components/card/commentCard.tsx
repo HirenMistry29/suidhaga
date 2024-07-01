@@ -50,6 +50,7 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
       console.error(err);
       toast.error("Error adding comment.");
     }
+    console.log("Body:", body, "Post ID:", postId);
   };
 
   return (

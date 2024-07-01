@@ -13,7 +13,6 @@ const ExcelReader = () => {
     const headers = ['title', 'firstName', 'middleName', 'lastName', 'mobile', 'aadharNumber', 'rollNumber', 'batchMonth', 'batchNo']
     // const [bulkAdd] = useMutation(BulkAdd);
     const { loading, error, data } = useQuery(GET_EXCEL_DATA);
-
     const handleFileChange = (e : any) => {
         console.log("Hello");
         const selectedFile = e.target.files[0];
@@ -27,39 +26,31 @@ const ExcelReader = () => {
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
             const jsonData = utils.sheet_to_json(sheet, { header: 1 });
-
             headers = jsonData[0];
-
             const formattedData = jsonData.slice(1).map((row:any) => {
                 const obj: { [key: string]: string } = {};
                 for (let i = 0; i < headers.length; i++) {
                     obj[headers[i]] = row[i] ? row[i] : "";
                 }
-
                 return obj;
             });
             console.log(headers);
             setFormattedData(formattedData);
             console.log(formattedData);
-            
         };
-
         reader.readAsBinaryString(selectedFile);
         console.log(headers);
     };
-
     const handleUpload = async () => {
         // try {
         //   await bulkAdd({ variables: { input: formattedData } });
-        //   alert('Excel data uploaded successfully');
+        //   aelrt('Excel data uploaded successfully');
         // } catch (error) {
         //   console.error('Error uploading Excel data:', error);
         //   alert('Error uploading Excel data');
         // }
         console.log(formattedData);
-        
       };
-
     return (
         <div>
             <div className="flex justify-between items-center p-4">
@@ -99,7 +90,6 @@ const ExcelReader = () => {
                     </table>
                 )
             }
-
         </div>
     );
 };
