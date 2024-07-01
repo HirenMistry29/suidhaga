@@ -12,7 +12,7 @@ export const GET_AUTHENTICATED_USER = gql`
 `;
 export const GET_USERS = gql`
   query GetUsers {
-    getUsers {
+    users {
       _id
       username
       userType

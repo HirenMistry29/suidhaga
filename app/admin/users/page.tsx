@@ -22,13 +22,15 @@ const Users = () => {
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [suggestions, setSuggestions] = useState<{ value: string }[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-
+ 
+  console.log(data)
   useEffect(() => {
     setSuggestions([]);
   }, []);
 
   const handleSearch = (value: string) => {
     if (data && data.getUsers) {
+
       let filteredUsers: User[];
       if (value.trim() === '') {
         filteredUsers = data.getUsers;
