@@ -6,7 +6,7 @@ export const GET_JOBS = gql`
 			_id
 			title
             description
-			username
+			status
 		}
 	}
 `;
@@ -18,4 +18,15 @@ export const GET_JOB_BY_ID = gql`
 			description
 		}
 	}
-`
+`;
+
+export const GET_JOBS_BY_ID = gql`
+	query GetJobs($id:ID!) {
+		jobByUserID(id: $id){
+			_id
+            title
+            description
+            status
+		}
+	}
+`;

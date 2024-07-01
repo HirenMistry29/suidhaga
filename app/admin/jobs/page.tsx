@@ -1,21 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
-import { Table, Skeleton, Avatar } from "antd";
+import { useMutation, useQuery } from "@apollo/client";
+import { Table, Skeleton, Avatar, Dropdown, message, Select } from "antd";
 import { GET_JOBS } from "@/graphql/queries/jobs.queries";
 import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif';
+import { DownOutlined } from "@ant-design/icons";
+import { UPDATE_JOB_STATUS } from "@/graphql/mutations/updateJobStatus.mutations";
 
 interface Job {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   username: string;
   quantity: number;
   amount: number;
+  status: String;
 }
 
 const Job: React.FC = () => {
   const { loading, error, data } = useQuery(GET_JOBS);
+  const [updateJobStatus] = useMutation(UPDATE_JOB_STATUS);
   const [list, setList] = useState<Job[]>([]);
 
   useEffect(() => {
@@ -26,6 +30,19 @@ const Job: React.FC = () => {
 
   if (loading) return <Skeleton active />;
   if (error) return <p>Error: {error.message}</p>;
+
+  const handleStatusChange = async (jobId: any, newStatus: String) => {
+    try {
+      const { data } = await updateJobStatus({ variables: { jobId, status: newStatus } });
+      if (data && data.updateJobStatus) {
+        message.success('Job status updated successfully');
+      } else {
+          message.error('Job not found');
+      }
+    } catch (error) {
+      message.error('Failed to update job status');
+    }
+  };
 
   const columns = [
     {
@@ -60,6 +77,21 @@ const Job: React.FC = () => {
       key: 'amount',
     },
     {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string, record: Job) => (
+        <Select
+          value={status}
+          onChange={(newStatus) => handleStatusChange(record._id, newStatus)}
+          options={[
+            { value: 'Active', label: 'Active' },
+            { value: 'Inactive', label: 'Inactive' },
+          ]}
+        />
+      ),
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (text: any, record: Job) => (
@@ -71,6 +103,7 @@ const Job: React.FC = () => {
       ),
     },
   ];
+
 
   return (
     <div className="overflow-auto">

@@ -50,7 +50,7 @@ export default function HomeLayout({
     setIsNavbarVisible(!isNavbarVisible);
   };
 
-  
+
 
   return (
     <>
@@ -61,20 +61,20 @@ export default function HomeLayout({
             <Header userType={data?.authUser?.userType} />{" "}
           </div>
 
-          <div className="">
-            <div id="header" className="top-10 justify-center shadow-md shadow-gray-400">
+          <div className="overflow-hidden">
+            <div id="header" className="justify-center shadow-md shadow-gray-400 lg:mt-0 md:mt-4 mt-8">
               <div className="bg-white h-[90%] w-screen flex justify-center p-[0.4%] z-50">
-                <Image className="w-[20%] pt-4 pb-2 xl:pt-3 xl:pb-2" src={logo} alt="" />
+                <Image className="w-[20%] lg:pt-4 pb-2 sm:pt-2" src={logo} alt="" />
               </div>
             </div>
             <div className="mt-2">
               <div className="flex flex-row justify-between gap-2 w-[100%]">
                 {/*left*/}
                 <div
-                  className="bg-red-600 h-full p-4 shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block md:hidden sm:hidden xs:hidden hidden"
+                  className="bg-red-600 p-4 shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block md:hidden sm:hidden xs:hidden hidden"
                   style={{
                     background: "white",
-                    height: "calc(100vh - 70px)",
+                    height: "calc(100vh - 50px)",
                     position: "sticky",
                     top: "41px",
                   }}
@@ -91,21 +91,28 @@ export default function HomeLayout({
                 </div>
 
                 <div className="h-full lg:w-[60%] sm:w-screen md:w-screen xs:w-screen  ">
-                  <span
-                    style={{ position: "sticky" }}
-                    className="xl:top-[41px] lg:top-[40px] md:top-[40px] top-[35px]"
-                  >
-                    <TopNavbar/>
-                  </span>
-                  <span>{children}</span>
-                  <AddJobCard
-                    isOpen={jobApplicationVisibility}
-                    onClose={() => SetJobApplicationVisibility(false)}
-                  />
-                  <AddPostCard
-                    isOpen={postApplicationVisibility}
-                    onClose={() => SetPostApplicationVisibility(false)}
-                  />
+                  <div className="flex flex-col justify-start ">
+                    <div className="z-50 sticky top-12 p-2">
+                      <div
+                        // style={{ //position: "sticky" }}
+                        className="sticky top-12 bg-white z-50"
+                      // className="xl:top-[41px] lg:top-[40px] md:top-[40px] top-[35px]"
+                      >
+                        <TopNavbar />
+                      </div>
+                    </div>
+                    <div className="max-h-screen overflow-y-auto no-scrollbar rounded-lg" style={{height: "calc(100vh - 100px)"}}>
+                      <span className="" >{children}</span>
+                    </div>
+                    <AddJobCard
+                      isOpen={jobApplicationVisibility}
+                      onClose={() => SetJobApplicationVisibility(false)}
+                    />
+                    <AddPostCard
+                      isOpen={postApplicationVisibility}
+                      onClose={() => SetPostApplicationVisibility(false)}
+                    />
+                  </div>
                 </div>
                 <div className="flex bottom-0  w-screen fixed justify-center lg:hidden bg-blue-500 rounded-md py-2 shadow-2xl shadow-blue-500  h-8">
                   <Button
@@ -115,26 +122,27 @@ export default function HomeLayout({
                   ></Button>
                 </div>
                 {isNavbarVisible && (
-          
-                        <AppBar className="z-0 mx-4 w-screen gap-[5%] right-1" position="fixed" color="primary" style={{ top: 'auto', bottom: 30,zIndex: -20
-                         }}>
-                        <Toolbar>
-                          <BottomNavigation value={value} onChange={handleChange} showLabels>
-                            <BottomNavigationAction label="" icon={<FileAddFilled />} />
-                            <BottomNavigationAction label="" icon={<AppstoreFilled />} />
-                            <BottomNavigationAction label=""  />
-                            <BottomNavigationAction label="" icon={<ShoppingFilled />} />
-                            <BottomNavigationAction label="" icon={<PersonIcon />} />
-                          </BottomNavigation>
-                        </Toolbar>
-                      </AppBar>
+
+                  <AppBar className="z-0 mx-4 w-screen gap-[5%] right-1" position="fixed" color="primary" style={{
+                    top: 'auto', bottom: 30, zIndex: -20
+                  }}>
+                    <Toolbar>
+                      <BottomNavigation value={value} onChange={handleChange} showLabels>
+                        <BottomNavigationAction label="" icon={<FileAddFilled />} />
+                        <BottomNavigationAction label="" icon={<AppstoreFilled />} />
+                        <BottomNavigationAction label="" />
+                        <BottomNavigationAction label="" icon={<ShoppingFilled />} />
+                        <BottomNavigationAction label="" icon={<PersonIcon />} />
+                      </BottomNavigation>
+                    </Toolbar>
+                  </AppBar>
                 )}
 
                 <div
-                  className="text-gray-800 right-0 p-[1%] shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block  md:hidden sm:hidden hidden"
+                  className="text-gray-800 right-0 p-[1%] shadow-xl lg:w-[20%] md:w-0 sm:w-0 xs:w-0 lg:block md:hidden sm:hidden hidden"
                   style={{
                     background: "white",
-                    height: "calc(100vh - 70px)",
+                    height: "calc(100vh - 50px)",
                     position: "sticky",
                     top: "41px",
                   }}
