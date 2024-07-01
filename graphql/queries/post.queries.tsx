@@ -8,6 +8,7 @@ export const GET_POSTS = gql`
       title
       description
       body
+      username
       createdAt
       comments {
         id
@@ -26,6 +27,18 @@ export const GET_POSTS = gql`
     }
   }
 `;
+
+export const GET_POSTS_ADMIN = gql`
+  query GetPosts {
+    posts {
+      _id
+      title
+      description
+      username
+      createdAt
+    }
+  }
+`
 const GET_POST = gql`
   query getPost($postId: ID!) {
     getPost(postId: $postId) {
