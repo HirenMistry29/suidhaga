@@ -7,6 +7,11 @@ export const GET_JOBS = gql`
 			title
             description
 			status
+			size
+			image
+			color
+			amount
+			quantity
 		}
 	}
 `;

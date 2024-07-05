@@ -15,6 +15,7 @@ const Createjob:React.FC<ChildProp> = ({visibility}) => {
         initialValues : {
           title:'',
           description: '',
+          image: Image,
         //   status: 'Active',
         },
         onSubmit: async () => {
@@ -35,7 +36,7 @@ const Createjob:React.FC<ChildProp> = ({visibility}) => {
                     <label htmlFor="password" className="text-[#333333] font-sans font-semibold text-lg">Title</label>
                     <div className={`bg-gray-50 flex flex-row justify-between outline outline-1 outline-gray-400 p-[2%] rounded hover:outline-gray-900`}>
                         <input
-                            id="password"
+                            id="title"
                             type="text"
                             className="bg-gray-50 focus:outline-none w-full"
                             placeholder="Title"
@@ -65,6 +66,26 @@ const Createjob:React.FC<ChildProp> = ({visibility}) => {
                     {formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
                     )}
+                </div>
+                    <p>HHH</p>
+                <div id='image' className="flex flex-col">
+                    <label htmlFor="image" className="text-[#333333] font-sans font-semibold text-lg">Reference Image</label>
+                    <div className={`bg-gray-50 flex flex-row justify-between outline outline-1 outline-gray-400 p-[2%] rounded hover:outline-gray-900`}>
+                        <input
+                            id="descritption"
+                            type="file"
+                            className="bg-gray-50 focus:outline-none w-full"
+                            // placeholder="description"
+                            // value={formik.values.image}
+                            
+                            onChange={formik.handleChange}
+                            accept='.jpg , .png , .jpeg'
+                            
+                        />
+                    </div>
+                    {/* {formik.errors.description && (
+                        <div className="text-danger">{formik.errors.description}</div>
+                    )} */}
                 </div>
 
                 <div className="flex place-content-center">

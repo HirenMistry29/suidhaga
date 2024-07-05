@@ -14,8 +14,9 @@ interface ChildProp {
     quantity    :String, 
     price       :String,
     id          :String,
+    image       :string,
 }
-const JobCard:React.FC<ChildProp> = ({id, imageSrc, title, details, color, size, quantity, price }) => {
+const JobCard:React.FC<ChildProp> = ({id, imageSrc, title, details, color, size, quantity, price , image}) => {
     
   
   const router = useRouter();
@@ -24,11 +25,13 @@ const JobCard:React.FC<ChildProp> = ({id, imageSrc, title, details, color, size,
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
     <div className='flex flex-col md:flex-row'>
       <div className='md:w-2/5 lg:w-[80%] '>
-        <Image
+        {image && <Image
           alt='ecommerce'
-          className='w-full object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none h-[100%]'
-          src={imageSrc}
-        />
+          className='w-[100%] object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none h-[100%] hover:transform-scale-y-[1.2] hover:w-full'
+          src={image}
+          width={'30'}
+          height={'100'}
+        />}
       </div>
       <div className='md:w-3/5 md:rounded-r-xl p-4 md:p-6'>
         <h2 onClick={()=>router.push(`/jobs/${id}`)} className='text-sm cursor-pointer font-sans text-black font-bold tracking-widest text-xl mb-2'>
