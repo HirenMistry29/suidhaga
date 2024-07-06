@@ -8,6 +8,7 @@ export const SIGN_UP = gql`
 			phone
 			username
 			email
+			name
 		}
 	}
 `;

@@ -20,19 +20,10 @@ interface ChildProp {
     userType : String
 }
 
-function getRoute() { 
-    const path = usePathname()
 
-    if(path.startsWith('/admin')){
-        return true;
-    }
-    else {
-        return false;
-    }
-} 
 
 const Header:React.FC<ChildProp> = ({userType}) => {
-
+    const path = usePathname();
     const route = useNavigate();
     const[logout , {loading}] = useMutation(LOGOUT);
     const logOut= async()=>{
@@ -46,8 +37,18 @@ const Header:React.FC<ChildProp> = ({userType}) => {
         }
         
     }
+    
     const isAdmin = getRoute();
 
+    function getRoute() { 
+
+        if(path.startsWith('/admin')){
+            return true;
+        }
+        else {
+            return false;
+        }
+    } 
 
     return(
         <div className="flex flex-col">

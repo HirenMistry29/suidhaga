@@ -26,7 +26,7 @@ const Job = () => {
     <div>
       {jobs && jobs.map((job : any)=>(
         <div key={job}> 
-          <JobCard  id={job._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={job?.amount}/>
+          <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/>
         </div>  
       ))}
 

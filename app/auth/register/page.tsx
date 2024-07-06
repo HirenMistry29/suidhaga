@@ -91,8 +91,9 @@ export default function Register() {
         const signUpData = {
           phone: phone,
           password: password,
-          username: `${formik.values.name}`,
+          username: phone,
           email: `${formik.values.email}`,
+          name: `${formik.values.name}`
         };
         console.log(signUpData);
 
@@ -197,17 +198,17 @@ export default function Register() {
             </div>
             <div className={`${!status && "hidden"} `}>
               <div
-                className={`${SansitaBold.className} text-md text-[#333333] md:text-xl mt-[2%] w-[100%] flex xs:max-md:place-content-center `}
+                className={`${SansitaBold.className} lg:text-2xl text-md text-[#333333] md:text-xl mt-[4%] w-[100%] flex xs:max-md:place-content-center `}
               >
                 Create Your Password
               </div>
-              <div className="mt-[2%] w-full">
+              <div className="mt-[15%] w-full">
                 <PasswordForm password={setPassword} status={setStatus} />
               </div>
             </div>
             <div className={`${!password && "hidden"}`}>
               <div
-                className={`${SansitaBold.className} text-md text-[#333333] md:text-xl mt-[2%] w-[100%] flex xs:max-md:place-content-center `}
+                className={`${SansitaBold.className} lg:text-2xl text-md text-[#333333] md:text-xl mt-[4%] w-[100%] flex xs:max-md:place-content-center `}
               >
                 User Details
               </div>
@@ -215,13 +216,13 @@ export default function Register() {
                 {/* ----MAKE A COMPONENT AND RENDER HERE */}
                 <div>
                   <form
-                    className="sm:w-[100%] md:w-[55%] lg:w-[35%] flex flex-col justify-center"
+                    className="sm:w-[100%] md:w-[55%] lg:w-full flex flex-col justify-center"
                     onSubmit={formik.handleSubmit}
                   >
                     <div id="name&password" className="flex flex-col">
                       <label
                         htmlFor="password"
-                        className="text-[#333333] font-sans font-semibold text-lg"
+                        className="text-[#333333] font-sans font-semibold text-lg mt-[20%]"
                       >
                         Name
                       </label>
@@ -276,7 +277,7 @@ export default function Register() {
                     <div className="flex place-content-center">
                       <button
                         type="submit"
-                        className="bg-[#C84869] hover:bg-[#961638] text-white mt-[4%] rounded-md hover:transition-colors duration-500 ease-in-out p-[1%] w-[70%]"
+                        className="bg-[#C84869] hover:bg-[#961638] text-white mt-[8%] rounded-md hover:transition-colors duration-500 ease-in-out p-[1%] w-[70%]"
                       >
                         Submit
                       </button>

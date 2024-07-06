@@ -2,6 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { useQuery } from '@apollo/client';
+import { useParams } from 'next/navigation';
+import { GET_JOBS_BY_ID } from '@/graphql/queries/jobs.queries';
 
 interface ChildProp {
     imageSrc: StaticImport,
@@ -9,7 +12,21 @@ interface ChildProp {
     email: String,
     phone: String,
 }
-const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => (
+
+
+const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
+    const { accountId } = useParams<{ accountId: string }>();
+    
+    const{data , loading , error} = useQuery(GET_JOBS_BY_ID,{
+            variables: {
+                id: accountId,
+            },
+    });
+    console.log(data);
+    
+
+
+    return(
     <>
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 '>
         <div className='flex flex-col justify-start'>
@@ -68,6 +85,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => (
         </div> 
     </div>
     </>
-);
+)
+}
 
 export default Profile;

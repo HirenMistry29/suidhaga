@@ -5,6 +5,8 @@ import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
 import { useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Profile from '@/components/card/profile';
+import ProfileImage from '@/public/image/man.jpg'
 
 export default function Account() {
   const { accountId } = useParams<{ accountId: string }>();
@@ -17,6 +19,8 @@ export default function Account() {
     }
   }, [data]);
 
+  console.log(data)
+
   useEffect(() => {
     console.log(userAccountId);
   }, [userAccountId]);
@@ -24,5 +28,9 @@ export default function Account() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  return <h1>My Page: {accountId}</h1>;
+  return(<>
+    <div>
+      <Profile imageSrc={ProfileImage} name={`${data?.authUser?.username}`} email={`${data?.authUser?.email}`} phone={`${data?.authUser?.phone}`} />
+    </div>
+  </>)
 }
