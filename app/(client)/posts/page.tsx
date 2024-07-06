@@ -12,20 +12,22 @@ import { useQuery } from '@apollo/client'
 
 const Post = () => {
   const { data, loading, error } = useQuery(GET_POSTS)
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<any[]>([]);
   // console.log(`Posts: `,data)
 
   useEffect(() => {
-    setPosts(data);
+    if (data) {
+      setPosts(data.posts); // Adjust this line based on the actual structure of the response
+    }
   }, [data])
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(posts);
-    
-  },[posts])
+
+  }, [posts])
 
   const handleLike = () => {
-    // toast.success(`Post Liked`)
+    toast.success(`Post Liked`)
   }
 
   return (
@@ -137,7 +139,7 @@ const Post = () => {
 
       {/* <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
       <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/> */}
-      <div>
+      {/* <div>
         {data && data.post && (
             // <ProductCard
             //   style={{ width: 240 }}
@@ -147,7 +149,23 @@ const Post = () => {
             // </ProductCard>
             <ProductCard imageSrc={NewImage} title={data.post.title} details={data.post.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
         )}
-      </div>
+      </div> */}
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {posts && posts.map((post: any) => (
+        <div key={post.id} >
+          {/* <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/> */}
+          <ProductCard
+            imageSrc={NewImage}
+            title={post.title}
+            details={post.description}
+            color={'Blue , Red'}
+            size={'xl , lg'}
+            quantity={'20'}
+            price={'20000'}
+            postId={''} />
+        </div>
+      ))}
     </>
   )
 }
