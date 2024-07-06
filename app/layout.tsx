@@ -9,11 +9,14 @@ import { useSearchParams , usePathname } from "next/navigation";
 import { useEffect } from "react";
 var NProgress = require("nprogress");
 // import { Suspense } from 'react'
-import {Toaster} from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 import { useQuery } from '@apollo/client';
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/users.queries"
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { ApolloWrapper } from "@/apollo/apolloClient";
+import { useMemo, useState } from "react";
+import { io, Socket } from "socket.io-client";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,8 +41,28 @@ export default function RootLayout({
     credentials: 'include',
   })
 
+  const socket: Socket = useMemo(() => io("http://localhost:8080"), []);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
+  useEffect(() => {
+        socket.on('connect', () => {
+            console.log(`Connected to server`);
+        })
 
+        socket.on('notification', (data) => {
+            console.log(`Notification from server`);
+            setNotifications([...notifications, data])
+        })
+
+        socket.on('disconnect', () => {
+            console.log(`Disconnected from server`);
+        })
+    }, [socket])
+
+    useEffect(()=>{
+        console.log(notifications);
+        // toast.success();
+    },[notifications])
 
 
   return (

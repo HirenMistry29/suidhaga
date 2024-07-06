@@ -6,6 +6,11 @@ export const ADD_JOB = gql`
 			title
             description
             createdAt
+			color
+			size
+			quantity
+			amount
+			image
 		}
 	}
 `;
