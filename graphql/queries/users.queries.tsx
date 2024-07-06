@@ -7,12 +7,13 @@ export const GET_AUTHENTICATED_USER = gql`
 			phone
 			username
 			userType
+      email
 		}
 	}
 `;
 export const GET_USERS = gql`
-  query GetUsers {
-    getUsers {
+  query users {
+    users {
       _id
       username
       userType

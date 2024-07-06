@@ -44,7 +44,7 @@ export default function AdminHome({
         setCollapsed(false);
       }
     };
-    handleResize(); 
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -52,49 +52,49 @@ export default function AdminHome({
   }, []);
   return (
     <>
-    <div className="flex flex-col">
-      <HeaderH userType={userType} />
-      <Layout className="mt-[3%] h-screen w-full overflow-hidden fixed">
-        {/* <Sider collapsed={collapsed} trigger={null} className="text-[#fff] ">
+      <div className="flex flex-col">
+        <HeaderH userType={userType} />
+        <Layout className="lg:mt-[2.6%] md:mt-[4.4%] sm:mt-[5.8%] mt-[9%] h-screen w-full overflow-hidden fixed">
+          {/* <Sider collapsed={collapsed} trigger={null} className="text-[#fff] ">
                   
                     <MenuList />
                </Sider> */}
-        <Sider
-          className=" overflow-auto h-screen fixed left-0  lg:top-[0px] bottom-0 md:top-[0px] top-[10px]"
-          breakpoint="sm"
-          trigger={null}
-          collapsed={collapsed}
-          collapsedWidth="55"
-          onCollapse={(collapse, type) => {
-            console.log(collapse, type);
-          }}
-        >
-          <MenuList 
-          />
-        </Sider>
-        <Layout>
-          <Header className="bg-white p-5 flex items-center justify-between">
-            <Button
-              type="text"
-              className="text-black"
-              onClick={() => setCollapsed(!collapsed)}
-              icon={<MenuUnfoldOutlined />}
+          <Sider
+            className=" overflow-auto h-screen fixed left-0 bottom-0 top-[0px]"
+            breakpoint="sm"
+            trigger={null}
+            collapsed={collapsed}
+            collapsedWidth="55"
+            onCollapse={(collapse, type) => {
+              console.log(collapse, type);
+            }}
+          >
+            <MenuList
             />
-            <div className=" flex flex-row justify-center">
-              <Link className="p-1" href="https://www.idf.org.in" passHref>
-                {/* <Image className='w-10 h-12 ' src={logo} alt='idf-logo.png' /> */}
-              </Link>
-              <div className=" justify-normal ">IDF</div>
-            </div>
-            <div className="flex flex-row gap-5 mr-[3%] text-base font-semibold">
-              <div className="cursor-pointer" onClick={signOut}>
-                Logout
+          </Sider>
+          <Layout>
+            <Header className="bg-white p-5 flex items-center justify-between">
+              <Button
+                type="text"
+                className="text-black"
+                onClick={() => setCollapsed(!collapsed)}
+                icon={<MenuUnfoldOutlined />}
+              />
+              <div className=" flex flex-row justify-center">
+                <Link className="p-1" href="https://www.idf.org.in" passHref>
+                  {/* <Image className='w-10 h-12 ' src={logo} alt='idf-logo.png' /> */}
+                </Link>
+                <div className=" justify-normal ">AkshayShakti</div>
               </div>
-            </div>
-          </Header>
-          <div className="bg-white m-[1%]">{children}</div>
+              <div className="flex flex-row gap-5 mr-[3%] text-base font-semibold">
+                <div className="cursor-pointer" onClick={signOut}>
+                  Logout
+                </div>
+              </div>
+            </Header>
+            <div className="bg-white m-[1%]">{children}</div>
+          </Layout>
         </Layout>
-      </Layout>
       </div>
     </>
   );

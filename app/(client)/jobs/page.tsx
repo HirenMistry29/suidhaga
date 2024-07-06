@@ -12,7 +12,8 @@ const Job = () => {
   
   useEffect(()=>{
     if(data){
-      setJobs(data.jobs)
+      const activeJobs = data.jobs.filter((job: { status: string; }) => job.status === 'Active');
+      setJobs(activeJobs);
     }    
   },[data])
   

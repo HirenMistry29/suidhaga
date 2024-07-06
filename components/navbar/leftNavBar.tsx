@@ -24,18 +24,18 @@ const LeftNavBar: React.FC<ChildProp> = ({ setJobVisibility, setPostVisibility, 
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [suggestions, setSuggestions] = useState<{ value: string }[]>([]);
 
-  const { loading, data } = useQuery<{ getUsers: User[] }>(GET_USERS);
+  const { loading, data } = useQuery<{ users: User[] }>(GET_USERS);
 
   useEffect(() => {
     setSuggestions([]);
   }, []);
   const handleSearch = (value: string) => {
-    if (data && data.getUsers) {
+    if (data && data.users) {
       let filteredUsers: User[];
       if (value.trim() === '') {
         filteredUsers = [];
       } else {
-        filteredUsers = data.getUsers.filter(user => user.username.toLowerCase().startsWith(value.toLowerCase()));
+        filteredUsers = data.users.filter(user => user.username.toLowerCase().includes(value.toLowerCase()));
       }
       setSearchResults(filteredUsers);
       setSuggestions(filteredUsers.map(user => ({ value: user.username })));

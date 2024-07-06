@@ -20,7 +20,7 @@ interface DataType extends User {
 }
 
 const GetUsers: React.FC = () => {
-  const { data, loading, error, refetch } = useQuery<{ getUsers: User[] }>(GET_USERS);
+  const { data, loading, error, refetch } = useQuery(GET_USERS);
   const [updateUserRole] = useMutation(UPDATE_USER_ROLE);
   const [list, setList] = useState<DataType[]>([]);
   const [searchResults, setSearchResults] = useState<DataType[]>([]);
@@ -30,8 +30,8 @@ const GetUsers: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (data && data.getUsers) {
-      const formattedUsers = data.getUsers.map((user, index) => ({
+    if (data && data.users) {
+      const formattedUsers = data.users.map((user: any, index: any) => ({
         Sr_no: index + 1,
         ...user,
         phone: user.phone.toString(),  // Ensure phone number is a string
@@ -42,22 +42,22 @@ const GetUsers: React.FC = () => {
   }, [data]);
 
   const handleSearch = (value: string) => {
-    if (data && data.getUsers) {
+    if (data && data.users) {
       let filteredUsers: DataType[];
       if (value.trim() === '') {
-        filteredUsers = data.getUsers.map((user, index) => ({
+        filteredUsers = data?.users.map((user: any, index: any) => ({
           Sr_no: index + 1,
           ...user,
           phone: user.phone.toString(),
         }));
       } else {
-        filteredUsers = data.getUsers
-          .filter(user => 
+        filteredUsers = data.users
+          .filter((user: { username: string; userType: string; phone: string | string[]; }) => 
             user.username.toLowerCase().includes(value.toLowerCase()) ||
-            user.userType.toLowerCase().includes(value) ||
+            user.userType.toLowerCase().includes(value.toLowerCase()) ||
             user.phone.includes(value)                      
           )
-          .map((user, index) => ({
+          .map((user: any, index: any) => ({
             Sr_no: index + 1,
             ...user,
           }));

@@ -6,13 +6,16 @@ import { GET_EXCEL_DATA } from '@/graphql/queries/bulkAdd.queries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { format } from 'path';
+import { BULK_ADD } from '@/graphql/mutations/employee.mutation';
+import toast from 'react-hot-toast';
 
 const ExcelReader = () => {
     const [file, setFile] = useState<File | null>(null);
     const [formattedData, setFormattedData] = useState<Array<{ [key: string]: string }>>([]);
     const headers = ['title', 'firstName', 'middleName', 'lastName', 'mobile', 'aadharNumber', 'rollNumber', 'batchMonth', 'batchNo']
-    // const [bulkAdd] = useMutation(BulkAdd);
-    const { loading, error, data } = useQuery(GET_EXCEL_DATA);
+    // const [addEmployee] = useMutation(BULK_ADD);
+    const[addEmployee , {loading , error }] = useMutation(BULK_ADD);
+
     const handleFileChange = (e : any) => {
         console.log("Hello");
         const selectedFile = e.target.files[0];
@@ -41,16 +44,28 @@ const ExcelReader = () => {
         reader.readAsBinaryString(selectedFile);
         console.log(headers);
     };
-    const handleUpload = async () => {
-        // try {
-        //   await bulkAdd({ variables: { input: formattedData } });
-        //   aelrt('Excel data uploaded successfully');
-        // } catch (error) {
-        //   console.error('Error uploading Excel data:', error);
-        //   alert('Error uploading Excel data');
-        // }
+
+    const handleSubmit = () => {
         console.log(formattedData);
-      };
+        try {
+            addEmployee({
+                variables: {
+                    employee: formattedData
+                }
+            })
+            .then(() => {toast.success(`File Uploaded`)})
+            .catch((e)=>{
+                console.log(e)
+                toast.error(e.message)
+            })
+            
+        } catch (error : any) {
+            console.log(error);
+            toast.error(error.message)
+            throw new Error(`error uploading the file`)
+        }
+    }
+
     return (
         <div>
             <div className="flex justify-between items-center p-4">
@@ -64,7 +79,7 @@ const ExcelReader = () => {
                     }}
                     className="mr-2"
                 />
-                <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded">
+                <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded">
                     Upload All
                 </button>
             </div>

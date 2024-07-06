@@ -15,6 +15,7 @@ const Createjob:React.FC<ChildProp> = ({visibility}) => {
         initialValues : {
           title:'',
           description: '',
+        //   status: 'Active',
         },
         onSubmit: async () => {
             console.log(formik.values);

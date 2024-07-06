@@ -30,6 +30,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
       materialProvided: false,
       amount: '',
       numOfApplicants: 1,
+      status: 'Active'
     },
     validationSchema: Yup.object({
       jobTitle: Yup.string().required('Required'),

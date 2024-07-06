@@ -34,7 +34,6 @@ export const UPDATE_USER_ROLE = gql`
   mutation UpdateUserRole($userId: ID!, $userType: String!) {
     updateUserRole(userId: $userId, userType: $userType) {
       _id
-      username
       userType
     }
   }
