@@ -62,8 +62,8 @@ const Users = () => {
     },
     {
       title: 'Name',
-      dataIndex: 'username',
-      key: 'username',
+      dataIndex: 'name',
+      key: 'name',
       render: (text, record) => (
         <span style={{ fontWeight: selectedUserId === record._id ? 'bold' : 'normal' }}>{text}</span>
       ),

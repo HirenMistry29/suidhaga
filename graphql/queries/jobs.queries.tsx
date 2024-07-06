@@ -12,6 +12,7 @@ export const GET_JOBS = gql`
 			color
 			amount
 			quantity
+			name	
 		}
 	}
 `;

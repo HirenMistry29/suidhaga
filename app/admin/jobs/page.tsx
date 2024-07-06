@@ -21,7 +21,8 @@ const Job: React.FC = () => {
   const { loading, error, data } = useQuery(GET_JOBS);
   const [updateJobStatus] = useMutation(UPDATE_JOB_STATUS);
   const [list, setList] = useState<Job[]>([]);
-
+  console.log(data);
+  
   useEffect(() => {
     if (data && data.jobs) {
       setList(data.jobs);
@@ -63,8 +64,8 @@ const Job: React.FC = () => {
     },
     {
       title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Quantity',
