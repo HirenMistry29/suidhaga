@@ -1,23 +1,21 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import logo from "@/public/image/logo.jpg";
 import Image from "next/image";
-import {auth} from "@/firebase/setup";
+import { auth } from "@/firebase/setup";
 import { signOut } from "firebase/auth";
 import toast from "react-hot-toast";
-import { useNavigate } from '@/hooks/useRoute';
+import { useNavigate } from "@/hooks/useRoute";
 import { useMutation } from "@apollo/client";
 import { LOGOUT } from "@/graphql/mutations/users.mutations";
 import { usePathname } from "next/navigation";
 
 interface ChildProp {
-    userType : String
+    userType: String;
 }
 
-
-
 interface ChildProp {
-    userType : String
+    userType: String;
 }
 
 
@@ -25,15 +23,15 @@ interface ChildProp {
 const Header:React.FC<ChildProp> = ({userType}) => {
     const path = usePathname();
     const route = useNavigate();
-    const[logout , {loading}] = useMutation(LOGOUT);
-    const logOut= async()=>{
+    const [logout, { loading }] = useMutation(LOGOUT);
+    const logOut = async () => {
         try {
-           await logout().then(()=>{toast.success(`user logged out`)})
-           
+            await logout().then(() => {
+                toast.success(`user logged out`);
+            });
         } catch (error) {
             console.log(error);
-            toast.error(`could not logout`)
-            
+            toast.error(`could not logout`);
         }
         
     }
@@ -60,18 +58,35 @@ const Header:React.FC<ChildProp> = ({userType}) => {
                 </div>
                 </div>
                 <div className="flex flex-row xl:gap-4 lg:gap-4 sm:gap-1 gap-1 py-[5px]">
-                    { userType==='Admin' && <span className="flex flex-row gap-1 xl:gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
-                    <span>|</span></span> }
-                    { isAdmin && <span className="flex flex-row gap-1 xl:gap-4"> <span onClick={()=>route('/jobs')} className="cursor-pointer hover:text-[#C7C7C7] ">Jobs</span> 
-                    <span>|</span></span> }
-                    <span onClick={()=>route('/auth/login')} className="cursor-pointer hover:text-[#C7C7C7] ">login</span>
+                    {userType === "Admin" && (
+                        <span className="flex flex-row gap-1 xl:gap-4">
+                            {" "}
+                            <span
+                                onClick={() => route("/admin")}
+                                className="cursor-pointer hover:text-[#C7C7C7] "
+                            >
+                                Admin
+                            </span>
+                            <span>|</span>
+                        </span>
+                    )}
+                    <span
+                        onClick={() => route("/auth/login")}
+                        className="cursor-pointer hover:text-[#C7C7C7] "
+                    >
+                        login
+                    </span>
                     <span>|</span>
-                    <span onClick={logOut} className="cursor-pointer hover:text-[#c7c7c7] ">logout</span>
+                    <span
+                        onClick={logOut}
+                        className="cursor-pointer hover:text-[#c7c7c7] "
+                    >
+                        logout
+                    </span>
                 </div>
             </div>
-            </div>
-    
-    )
-}
+        </div>
+    );
+};
 
 export default Header;

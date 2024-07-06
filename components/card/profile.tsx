@@ -29,7 +29,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
         refetch();
         setState(true);
     };
-  
+    console.log(data)
 
   return (
     <>
@@ -80,8 +80,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
           My Posts
         </div>
         <div className="grid lg:grid-cols-5 md:grid-cols-3">
-        {loading && <div className="text-center text-gray-500">Loading...</div>}
-        {error && <div className="text-center text-red-500">Error loading jobs</div>}
+          
         {data && data.jobByUserID && data.jobByUserID.length > 0 ? (
           data.jobByUserID.map((job: any) => (
             <div key={job._id} className="bg-gray-400 p-5 justify-center border-1">
