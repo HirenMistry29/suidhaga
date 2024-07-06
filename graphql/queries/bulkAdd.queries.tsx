@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_EXCEL_DATA = gql`
 query GetExcelData {
-    excelData {
+  getEmployee {
       title
       firstName
       middleName
