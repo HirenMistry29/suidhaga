@@ -21,6 +21,12 @@ export const GET_JOB_BY_ID = gql`
 		job(id: $id){
 			title
 			description
+			status
+			size
+			image
+			color
+			amount
+			quantity
 		}
 	}
 `;
