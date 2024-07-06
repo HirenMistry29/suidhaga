@@ -8,6 +8,7 @@ export const GET_AUTHENTICATED_USER = gql`
 			username
 			userType
       email
+      name
 		}
 	}
 `;
@@ -19,6 +20,7 @@ export const GET_USERS = gql`
       userType
       email
       phone
+      name
     }
   }
 `;

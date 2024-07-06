@@ -67,8 +67,8 @@ const PasswordForm:React.FC<ChildProps> = ({password , status}) => {
 
     return(
         <>
-            <form className="sm:w-[100%] md:w-[55%] lg:w-[35%] flex flex-col justify-center" onSubmit={formik.handleSubmit} >
-                <div id='password' className="flex flex-col">
+            <form className="sm:w-[100%] md:w-[55%] lg:w-full flex flex-col justify-center" onSubmit={formik.handleSubmit} >
+                <div id='password' className="flex flex-col w-full">
                     <label htmlFor="password" className="text-[#333333] font-sans font-semibold text-lg">Password</label>
                     <div className={`bg-gray-50 flex flex-row justify-between outline outline-1 outline-gray-400 p-[2%] rounded ${Pfocus} hover:outline-gray-900`}>
                         <input

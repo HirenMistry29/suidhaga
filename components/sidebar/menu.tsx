@@ -49,6 +49,7 @@ export const MenuList = () => {
       "Home",
       "Authentication",
       "Bulk Add",
+      "Attendance",
       "Users",
       "Roles",
       "Jobs",
@@ -62,18 +63,19 @@ export const MenuList = () => {
   ];
   const paths = [
     "/",
-    "/authentication",
+    "/admin/authentication",
     "/admin/bulkAdd",
+    "/admin/attendance",
     "/admin/users",
     "/admin/roles",
     "/admin/jobs",
     "/admin/posts",
-    "/orders",
-    "/notifications",
-    "/payments",
-    "/settings",
-    "/bugs",
-    "/profile",
+    "/admin/orders",
+    "/admin/notifications",
+    "/admin/payments",
+    "/admin/settings",
+    "/admin/bugs",
+    "/admin/profile",
   ];
 
   const icons = [
