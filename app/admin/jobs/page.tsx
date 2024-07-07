@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Table, Skeleton, Avatar, Dropdown, message, Select } from "antd";
+import { Table, Skeleton, Avatar, Select } from "antd";
 import { GET_JOBS } from "@/graphql/queries/jobs.queries";
 import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif';
-import { DownOutlined } from "@ant-design/icons";
 import { UPDATE_JOB_STATUS } from "@/graphql/mutations/updateJobStatus.mutations";
+import toast from "react-hot-toast";
+import DeleteJobButton from "@/components/buttons/deleteJobButton";
 
 interface Job {
   _id: string;
@@ -36,12 +37,12 @@ const Job: React.FC = () => {
     try {
       const { data } = await updateJobStatus({ variables: { jobId, status: newStatus } });
       if (data && data.updateJobStatus) {
-        message.success('Job status updated successfully');
+        toast.success('Job status updated successfully');
       } else {
-          message.error('Job not found');
+          toast.error('Job not found');
       }
     } catch (error) {
-      message.error('Failed to update job status');
+      toast.error('Failed to update job status');
     }
   };
 
@@ -95,11 +96,9 @@ const Job: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (text: any, record: Job) => (
+      render: ( record: Job) => (
         <>
-          <a>Edit</a>
-          <br />
-          <a>More</a>
+          <DeleteJobButton jobId={record._id}/>
         </>
       ),
     },
