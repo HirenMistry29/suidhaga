@@ -30,7 +30,7 @@ export default function Account() {
 
   return(<>
     <div>
-      <Profile imageSrc={ProfileImage} name={`${data?.authUser?.username}`} email={`${data?.authUser?.email}`} phone={`${data?.authUser?.phone}`} />
+      <Profile imageSrc={ProfileImage} name={`${data?.authUser?.name}`} email={`${data?.authUser?.email}`} phone={`${data?.authUser?.phone}`} />
     </div>
   </>)
 }
