@@ -39,6 +39,7 @@ export const GET_JOBS_BY_ID = gql`
             title
             description
             status
+			image
 		}
 	}
 `;

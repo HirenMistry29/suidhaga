@@ -6,6 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import JobCard from '@/components/card/jobCard'; // Adjust the import path if necessary
+import JobCardModal from '@/components/card/jobCardModal';
 
 interface AddJobCardProps {
   isOpen: boolean;
@@ -26,13 +27,13 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose, jobId }) => {
   }, [data, loading, error]);
 
   return (
-    <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle >Job Details</DialogTitle>
-      <DialogContent>
+    <Dialog  open={isOpen} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle className='bg-blue-950 text-white'>Job Details</DialogTitle>
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         {data && data.job && (
-          <JobCard 
+          <div className='bg-gray-400'>
+          <JobCardModal 
             image={data.job.image} 
             id={data.job._id} 
             imageSrc={data.job.NewImage} 
@@ -43,8 +44,8 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose, jobId }) => {
             quantity={data.job.quantity} 
             price={data.job.amount} 
           />
+          </div>
         )}
-      </DialogContent>
     </Dialog>
   );
 };

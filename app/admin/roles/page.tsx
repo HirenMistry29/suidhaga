@@ -11,8 +11,9 @@ const { Option } = Select;
 interface User {
   _id: string;
   username: string;
-  phone: string;  // Changed to string to handle +91
+  phone: string;
   userType: string;
+  name: string;
 }
 
 interface DataType extends User {
@@ -52,8 +53,8 @@ const GetUsers: React.FC = () => {
         }));
       } else {
         filteredUsers = data.users
-          .filter((user: { username: string; userType: string; phone: string | string[]; }) => 
-            user.username.toLowerCase().includes(value.toLowerCase()) ||
+          .filter((user: { name: string; userType: string; phone: string | string[]; }) => 
+            user.name.toLowerCase().includes(value.toLowerCase()) ||
             user.userType.toLowerCase().includes(value.toLowerCase()) ||
             user.phone.includes(value)                      
           )
@@ -63,12 +64,12 @@ const GetUsers: React.FC = () => {
           }));
       }
       setSearchResults(filteredUsers);
-      setSuggestions(filteredUsers.map(user => ({ value: user.username })));
+      setSuggestions(filteredUsers.map(user => ({ value: user.name })));
     }
   };
 
   const handleSelect = (value: string) => {
-    const selectedUser = searchResults.find(user => user.username === value);
+    const selectedUser = searchResults.find(user => user.name === value);
     if (selectedUser) {
       setSelectedUserId(selectedUser._id);
     }
@@ -105,7 +106,7 @@ const GetUsers: React.FC = () => {
     },
     {
       title: 'Username',
-      dataIndex: 'username',
+      dataIndex: 'name',
       key: 'username',
       render: (text: any, record: any) => (
         <span style={{ fontWeight: selectedUserId === record._id ? 'bold' : 'normal' }}>{text}</span>
