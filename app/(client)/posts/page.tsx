@@ -21,10 +21,10 @@ const Post = () => {
     }
   }, [data])
 
-  useEffect(() => {
-    console.log(posts);
+  // useEffect(() => {
+  //   console.log(posts);
 
-  }, [posts])
+  // }, [posts])
 
   const handleLike = () => {
     toast.success(`Post Liked`)
@@ -163,7 +163,7 @@ const Post = () => {
             size={'xl , lg'}
             quantity={'20'}
             price={'20000'}
-            postId={''} />
+            postId={post._id} />
         </div>
       ))}
     </>

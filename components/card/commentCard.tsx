@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import toast from "react-hot-toast";
 import { CREATE_COMMENT } from "@/graphql/mutations/comment.mutation";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Modal, Box, Typography, TextField, Button, IconButton } from "@mui/material";
 import styled from "styled-components";
+import { GET_POST_COMMENTS } from "@/graphql/queries/comments.queries";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Avatar, List, Skeleton } from "antd";
 
 // Define a styled component for the scrollable div
 const ScrollableDiv = styled.div`
@@ -28,31 +31,93 @@ interface ChildProp {
   postId: string;
 }
 
+interface commentinput {
+  postId: String;
+  body: String;
+}
+
 const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, postId }) => {
   const [body, setBody] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [createComment, { loading, error }] = useMutation(CREATE_COMMENT);
+  const [comments, setComments] = useState<any[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const { loading: commentsLoading, error: commentsError, data, fetchMore } = useQuery(GET_POST_COMMENTS, {
+    variables: { postId, offset: 0, limit: 10 },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  useEffect(() => {
+    console.log(data);
+    
+    if (data) {
+      setComments(data.getPostComments);
+      console.log(`From commments: `,data.getPostComments);
+
+      if (data.getPostComments.length < 10) {
+        setHasMore(false);
+      }
+    }
+  }, [data]);
+
+
+  useEffect(() => {
+    console.log('CommentCard isOpen:', isOpen);
+  }, [isOpen]);
+
+  if (commentsError) {
+    console.error("Error fetching comments:", commentsError);
+  }
+
+  const loadMoreComments = () => {
+    fetchMore({
+      variables: {
+        offset: comments.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        if (fetchMoreResult.getPostComments.length < 10) {
+          setHasMore(false);
+        }
+        return {
+          ...prev,
+          getPostComments: [...prev.getPostComments, ...fetchMoreResult.getPostComments],
+        };
+      },
+    });
+  };
 
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
 
   const handleUpload = async () => {
+
+    const commentinput = {
+      postId: postId,
+      body: body
+    }
+
     try {
       await createComment({
         variables: {
-          postId,
-          body,
+          input: commentinput
         },
       });
       toast.success("Comment added successfully!");
+      setBody("")
     } catch (err) {
       console.error(err);
       toast.error("Error adding comment.");
     }
   };
 
+  // if (commentsLoading && !data) return <Skeleton active />;
+  // if (commentsError) return <p>Error: {commentsError.message}</p>;
+
   return (
+    
     <Modal open={isOpen} onClose={() => setIsOpen(false)}>
       <Box
         sx={{
@@ -101,7 +166,7 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
           </Button>
         </Box>
 
-        <ScrollableDiv className="text-sm px-4 overflow-auto h-50 bg-gray-100" id="scrollable-div">
+        {/* <ScrollableDiv className="text-sm px-4 overflow-auto h-50 bg-gray-100" id="scrollable-div">
           <Box display="flex" flexDirection="row">
             <Typography variant="body2" fontWeight="bold" pr={1}>Nikhil</Typography>
             <Typography variant="body2">Beautiful</Typography>
@@ -144,7 +209,34 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
               </Box>
             </Box>
           )}
-        </ScrollableDiv>
+        </ScrollableDiv> */}
+        <div style={{ height: "400px", overflow: "auto" }} id="scrollable-div">
+          <InfiniteScroll
+            dataLength={comments.length}
+            next={loadMoreComments}
+            hasMore={!commentsLoading && hasMore}
+            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+            scrollableTarget="scrollable-div"
+          >
+            <List
+              dataSource={comments}
+              renderItem={comment => (
+                <List.Item key={comment.id}>
+                  <List.Item.Meta
+                    avatar={<Avatar>{comment.body.charAt(0)}</Avatar>}
+                    title={comment.body}
+                  />
+                </List.Item>
+              )}
+            >
+              {loading && hasMore && (
+                <div className="loading-container">
+                  <Skeleton avatar paragraph={{ rows: 3 }} active />
+                </div>
+              )}
+            </List>
+          </InfiniteScroll>
+        </div>
       </Box>
     </Modal>
   );
