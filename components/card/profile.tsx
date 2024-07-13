@@ -9,6 +9,10 @@ import { Card } from "antd";
 import Meta from "antd/es/card/Meta";
 import AddJobCard from "@/app/(client)/jobs/[jobId]/page";
 import Job from "@/app/(client)/jobs/page";
+import { GET_POST_BY_ID } from "@/graphql/queries/post.queries";
+
+import ProductCard from "./postCard";
+
 
 
 interface ChildProp {
@@ -23,7 +27,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
   const [state, setState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
-  const [myJobOpen,setMyJobOpen] =useState(false);
+  const [myJobOpen,setMyJobOpen] =useState(true);
   const [myPostsOpen, setMyPostsOpen] = useState(false);
   const [myOrders, setMyOrders] = useState(false);
 
@@ -43,7 +47,11 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
       id: accountId,
     },
   });
-
+ const { data: postData}= useQuery(GET_POST_BY_ID, {
+  variables: {
+    id: accountId,
+  }
+ });
   const handleJobClick = () => {
     setMyJobOpen(true);
     setMyPostsOpen(false);
@@ -135,6 +143,29 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
       {isModalOpen && selectedJobId && (
         <AddJobCard isOpen={isModalOpen} onClose={handleCloseModal} jobId={selectedJobId} />
       )}
+       {myPostsOpen &&(
+        <div className="grid lg:grid-cols-5 gap-1 md:grid-cols-3 bg-gray-200"> 
+        {postData && postData.getPostById && postData.getPostById.length > 0 ? (
+          postData.getPostById.map((posts: any) => (
+            <Card
+              key={posts._id} 
+              onClick={() => handleCardClick(posts._id)} 
+              hoverable
+              className=""
+              cover={<Image alt="loading..." src={imageSrc} width={100}/>}
+            >
+              <div className="absolute inset-x-0 bottom-2 text-center border-t-2">
+              <Meta title={posts.title} className=""/>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <div className="text-center text-gray-500">No jobs found.</div>
+        )}
+
+        </div>)}
+
+
     </>
     
   );

@@ -74,9 +74,9 @@ const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, siz
                 <LikeOutlined className='text-3xl px-2 hover:text-[#A72447] cursor-pointer' />
               </span>
               <CommentOutlined onClick={() => setIsOpen(true)} className='text-3xl px-2 hover:text-[#A72447] cursor-pointer' />
-              <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'>
+              {/* <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'>
                 Buy
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

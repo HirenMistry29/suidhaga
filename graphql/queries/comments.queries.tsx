@@ -17,6 +17,8 @@ export const GET_POST_COMMENTS = gql`
         getPostComments(postId: $postId, offset: $offset, limit: $limit) {
             id
             body
+            username
+            createdAt
             postId
         }
     }

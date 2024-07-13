@@ -73,7 +73,7 @@ const LeftNavBar: React.FC<ChildProp> = ({
 
   useEffect(() => {
     if (data && data.users) {
-      const shuffledUsers = shuffleArray(data.users).slice(0, 3); // Get 3 random users
+      const shuffledUsers = shuffleArray(data.users).slice(0, 4); // Get 3 random users
       setRandomUsers(shuffledUsers);
     }
   }, [data]);
@@ -88,8 +88,9 @@ const LeftNavBar: React.FC<ChildProp> = ({
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="h-1/3">
+    <div className="flex flex-col h-full justify-evenly gap-1 w-full">
+      
+      <div className="flex flex-col h-auto rounded-xl  shadow-xl p-1 w-full overflow-hidden">
         <AutoComplete
           className="bg-gray-200 rounded-sm w-full"
           options={suggestions}
@@ -101,9 +102,7 @@ const LeftNavBar: React.FC<ChildProp> = ({
         >
           <Search placeholder="Search" loading={loading} enterButton />
         </AutoComplete>
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "white" }}
-        >
+        <List sx={{ width: "100%", maxWidth: 360, bgcolor: "white" }}>
           {randomUsers.map((user) => (
             <React.Fragment key={user._id}>
               <ListItem
@@ -111,7 +110,7 @@ const LeftNavBar: React.FC<ChildProp> = ({
                 onClick={() => onUserClick(user._id)}
               >
                 <ListItemAvatar>
-                  <Avatar alt={user.name} src={""} />
+                  <Avatar>{user.name.charAt(0)}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   primary={user.name}
@@ -131,11 +130,8 @@ const LeftNavBar: React.FC<ChildProp> = ({
             </React.Fragment>
           ))}
         </List>
-
-        <Divider className="bg-slate-400"></Divider>
       </div>
-      <div className="w-full border-solid border-[1px] bg-gray-500" />
-      <div className="flex flex-col text-gray-700 gap-[1px] justify-end bg-white h-1/2">
+      <div className="flex flex-col sticky bottom-1 text-gray-700 gap-[1px] justify-evenly p-1 bg-white h-1/2 shadow-xl rounded-lg">
         <span
           className="cursor-pointer text-lg font-semibold flex flex-row gap-3 p-2 rounded-lg hover:bg-gray-200"
           onClick={() => setJobVisibility(true)}
@@ -154,10 +150,10 @@ const LeftNavBar: React.FC<ChildProp> = ({
           <ShoppingFilled />
           My Orders
         </span>
-        <span className="cursor-pointer text-lg font-semibold flex flex-row gap-3 p-2 rounded-lg hover:bg-gray-200">
+        {/* <span className="cursor-pointer text-lg font-semibold flex flex-row gap-3 p-2 rounded-lg hover:bg-gray-200">
           <PersonIcon />
           My Account
-        </span>
+        </span> */}
         <span className="cursor-pointer text-lg font-semibold flex flex-row gap-3 p-2 rounded-lg hover:bg-gray-200">
           <MailFilled />
           Contact Us
