@@ -9,6 +9,8 @@ import { DELETE_JOB } from "@/graphql/mutations/deleteJob.mutation";
 const { Search } = Input;
 import { DownOutlined } from "@ant-design/icons";
 import { UPDATE_JOB_STATUS } from "@/graphql/mutations/updateJobStatus.mutations";
+import toast from "react-hot-toast";
+import DeleteJobButton from "@/components/buttons/deleteJobButton";
 
 interface Job {
   _id: string;
@@ -69,12 +71,12 @@ const Job: React.FC = () => {
     try {
       const { data } = await updateJobStatus({ variables: { jobId, status: newStatus } });
       if (data && data.updateJobStatus) {
-        message.success('Job status updated successfully');
+        toast.success('Job status updated successfully');
       } else {
-          message.error('Job not found');
+          toast.error('Job not found');
       }
     } catch (error) {
-      message.error('Failed to update job status');
+      toast.error('Failed to update job status');
     }
   };
 

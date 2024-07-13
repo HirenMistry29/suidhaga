@@ -1,20 +1,38 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif'
 import Image from 'next/image'
-import { LikeOutlined , CommentOutlined} from '@ant-design/icons'
+import { LikeOutlined, CommentOutlined } from '@ant-design/icons'
 import toast from 'react-hot-toast'
 import ProductCard from '@/components/card/postCard'
+import { Card } from 'antd'
+import Meta from 'antd/es/card/Meta'
+import { GET_POSTS } from '@/graphql/queries/post.queries'
+import { useQuery } from '@apollo/client'
 
 const Post = () => {
+  const { data, loading, error } = useQuery(GET_POSTS)
+  const [posts, setPosts] = useState<any[]>([]);
+  // console.log(`Posts: `,data)
+
+  useEffect(() => {
+    if (data) {
+      setPosts(data.posts); // Adjust this line based on the actual structure of the response
+    }
+  }, [data])
+
+  useEffect(() => {
+    console.log(posts);
+
+  }, [posts])
 
   const handleLike = () => {
-    // toast.success(`Post Liked`)
+    toast.success(`Post Liked`)
   }
 
   return (
     <>
-    {/* <section className='h-screen'>
+      {/* <section className='h-screen'>
       <div className=' bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 h-[60%]'>
       <div className='px-[1%] py-[1%] mx-auto flex flex-row '>
         <div className='lg:w-4/5 mx-auto '>
@@ -119,8 +137,35 @@ const Post = () => {
         </div>
         </section> */}
 
-      <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
-      <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
+      {/* <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
+      <ProductCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/> */}
+      {/* <div>
+        {data && data.post && (
+            // <ProductCard
+            //   style={{ width: 240 }}
+            //   cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+            // >
+            //   <Meta title={data?.post.title} description={data?.post.description} />
+            // </ProductCard>
+            <ProductCard imageSrc={NewImage} title={data.post.title} details={data.post.description} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'20000'} postId={''}/>
+        )}
+      </div> */}
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {posts && posts.map((post: any) => (
+        <div key={post.id} >
+          {/* <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/> */}
+          <ProductCard
+            imageSrc={NewImage}
+            title={post.title}
+            details={post.description}
+            color={'Blue , Red'}
+            size={'xl , lg'}
+            quantity={'20'}
+            price={'20000'}
+            postId={''} />
+        </div>
+      ))}
     </>
   )
 }
@@ -128,6 +173,6 @@ const Post = () => {
 export default Post;
 
 //! 1. Add a sample data : [post image , title , description , amount and add a button to like and comment the post]
-//! 2. show the comments of the post on clicking the show comments button 
+//! 2. show the comments of the post on clicking the show comments button
 //! 3. if there are too many comments add 'load more' option
 //! 4. Each post should have its own white-bg and add gap between each jobs
