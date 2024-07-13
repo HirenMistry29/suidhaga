@@ -24,11 +24,21 @@ export const GET_POSTS_ADMIN = gql`
     }
   }
 `
-export const GET_POST_BY_ID = gql`
+export const GET_POSTS_BY_ID = gql`
   query GetPosts($id: ID!) {
-    getPostById(accountId: $id) {
+    getPostsById(accountId: $id) {
       _id
       title
+      description
+      }
+    }
+`;
+
+export const GET_POST_BY_ID = gql`
+  query GetPost($postId: ID!) {
+    getPostById(postId: $postId) {
+      title
+      description
       }
     }
 `;

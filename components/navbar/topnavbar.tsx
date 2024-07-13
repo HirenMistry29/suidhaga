@@ -26,27 +26,26 @@ const TopNavbar = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className={`bg-white w-[100%] rounded-md ${inter.className} font-semibold pt-1 px-1 `}>
-      <ul className='flex flex-row xl:gap-[15%] gap-[10%] justify-center'>
+    <div className={`bg-white w-[100%] rounded-xl  font-semibold`}>
+      <ul className='flex flex-row xl:gap-[15%] gap-x-[10%] justify-center'>
         <li
           className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === 'http://localhost:3000/jobs' ? 'text-red-600' : 'text-gray-500'}`}
           onClick={() => { router.push('/jobs') }}
         >
-          Job
+          JOB
         </li>
         <li>|</li>
         <li
           className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === 'http://localhost:3000/posts' ? 'text-red-600' : 'text-gray-500'}`}
           onClick={() => { router.push('/posts') }}
-        >
-          Post
+        >POST
         </li>
         <li>|</li>
         <li
           className={`cursor-pointer hover:text-gray-700 text-gray-500 ${currentUrl === `http://localhost:3000/account/${accountId}` ? 'text-red-600' : 'text-gray-500'}`}
           onClick={() => { accountId && router.push(`/account/${accountId}`) }}
         >
-          Account
+          ACCOUNT
         </li>
       </ul>
     </div>

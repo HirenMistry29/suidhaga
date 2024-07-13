@@ -104,11 +104,11 @@ export default function HomeLayout({
                   </div>
                 </div>
 
-                <div className="h-full lg:w-[60%] sm:w-screen md:w-screen xs:w-screen  ">
-                  <div className="flex flex-col justify-start ">
-                    <div className="z-50 sticky top-12 p-2">
+                <div className="h-full lg:w-[60%] sm:w-screen md:w-screen xs:w-screen px-1  ">
+                  <div className="flex flex-col justify-start">
+                    <div className="z-50 sticky top-12 h-6 mb-2">
                       <div
-                        className="sticky top-12 bg-white z-50"
+                        className="sticky top-12 bg-white z-50 h-full rounded-lg"
                       >
                         <TopNavbar />
                       </div>

@@ -20,12 +20,6 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose, jobId }) => {
     skip: !jobId,
   });
 
-  useEffect(() => {
-    console.log('Data:', data);
-    console.log('Loading:', loading);
-    console.log('Error:', error);
-  }, [data, loading, error]);
-
   return (
     <Dialog  open={isOpen} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle className='bg-blue-950 text-white'>Job Details</DialogTitle>
