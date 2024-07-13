@@ -109,7 +109,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
         <div className="py-3 pl-3 border-b-2" >
          {myJobOpen? "My Jobs" : myPostsOpen? "My Posts": myOrders? "My Orders" : "My Jobs"}
         </div>
-        {(
+        {myJobOpen &&(
         <div className="grid lg:grid-cols-5 gap-1 md:grid-cols-3 bg-gray-200"> 
         {data && data.jobByUserID && data.jobByUserID.length > 0 ? (
           data.jobByUserID.map((job: any) => (

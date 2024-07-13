@@ -32,7 +32,7 @@ const JobCardModal: React.FC<ChildProp> = ({ id, imageSrc, title, details, color
   }
 
   return (
-    <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-sm overflow-hidden m-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
+    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-sm overflow-hidden m-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
       <div className='flex flex-col md:flex-row'>
         <div className='md:w-2/5 lg:w-[80%] '>
           {image && <Image
