@@ -5,6 +5,7 @@ export const CREATE_COMMENT = gql`
     createComment(input: $input) {
       id
       body
+      username
     }
   }
 `;
