@@ -67,7 +67,7 @@ const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, siz
           </div>
           <div className='flex flex-col md:flex-row items-center'>
             <span className='title-font font-medium text-2xl text-black mb-2 md:mb-0 md:mr-4'>
-              ${price}
+            ₹{price}
             </span>
             <div className='flex items-center md:ml-auto'>
               <span onClick={() => toast.success(`Post Liked`)}>

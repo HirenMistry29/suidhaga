@@ -37,7 +37,8 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
         <div className='md:w-2/5 lg:w-[80%] '>
           {image && <Image
             alt='ecommerce'
-            className='w-[100%] object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none h-[100%] hover:transform-scale-y-[1.2] hover:w-full'
+            onClick={handleTitleClick}
+            className='w-full transition-transform transform hover:scale-[1.02] ease-in  object-cover object-center rounded-t-xl md:rounded-l-xl  md:rounded-t-none h-[100%] '
             src={image}
             width={30}
             height={100}
@@ -64,7 +65,7 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
           </div>
           <div className='flex flex-col md:flex-row items-center'>
             <span className='title-font font-medium text-2xl text-black mb-2 md:mb-0 md:mr-4'>
-              ${price}
+            ₹{price}
             </span>
             <div className='flex items-center md:ml-auto'>
               <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'
