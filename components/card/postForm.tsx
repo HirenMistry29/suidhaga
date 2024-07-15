@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@apollo/client';
@@ -21,6 +21,7 @@ interface AddJobCardProps {
 const AddPostCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
   const [createPost, { loading, error }] = useMutation(ADD_POST);
   const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       jobTitle: '',

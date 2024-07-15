@@ -5,11 +5,20 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import toast from "react-hot-toast";
 import { CREATE_COMMENT } from "@/graphql/mutations/comment.mutation";
 import { useMutation, useQuery } from "@apollo/client";
-import { Modal, Box, Typography, TextField, Button, IconButton } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  ListItemText,
+} from "@mui/material";
 import styled from "styled-components";
 import { GET_POST_COMMENTS } from "@/graphql/queries/comments.queries";
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Avatar, List, Skeleton } from "antd";
+import { fromUnixTime, format, isToday, isYesterday, parseISO } from "date-fns";
 
 // Define a styled component for the scrollable div
 const ScrollableDiv = styled.div`
@@ -36,24 +45,35 @@ interface commentinput {
   body: String;
 }
 
-const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, postId }) => {
+const CommentCard: React.FC<ChildProp> = ({
+  isOpen,
+  setIsOpen,
+  imageSrc,
+  title,
+  postId,
+}) => {
   const [body, setBody] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [createComment, { loading, error }] = useMutation(CREATE_COMMENT);
   const [comments, setComments] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
-  const { loading: commentsLoading, error: commentsError, data, fetchMore } = useQuery(GET_POST_COMMENTS, {
+  const {
+    loading: commentsLoading,
+    error: commentsError,
+    data,
+    fetchMore,
+  } = useQuery(GET_POST_COMMENTS, {
     variables: { postId, offset: 0, limit: 10 },
     notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
     console.log(data);
-    
+
     if (data) {
       setComments(data.getPostComments);
-      console.log(`From commments: `,data.getPostComments);
+      console.log(`From commments: `, data.getPostComments);
 
       if (data.getPostComments.length < 10) {
         setHasMore(false);
@@ -61,9 +81,8 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
     }
   }, [data]);
 
-
   useEffect(() => {
-    console.log('CommentCard isOpen:', isOpen);
+    console.log("CommentCard isOpen:", isOpen);
   }, [isOpen]);
 
   if (commentsError) {
@@ -82,7 +101,10 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
         }
         return {
           ...prev,
-          getPostComments: [...prev.getPostComments, ...fetchMoreResult.getPostComments],
+          getPostComments: [
+            ...prev.getPostComments,
+            ...fetchMoreResult.getPostComments,
+          ],
         };
       },
     });
@@ -93,31 +115,40 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
   };
 
   const handleUpload = async () => {
-
     const commentinput = {
       postId: postId,
-      body: body
-    }
-
+      body: body,
+    };
     try {
       await createComment({
         variables: {
-          input: commentinput
+          input: commentinput,
         },
+        refetchQueries: [
+          {
+            query: GET_POST_COMMENTS, // Replace with your actual query
+            variables: { postId: postId, offset:0 ,limit:10 }, // Include any variables required by the query
+          },
+        ],
       });
       toast.success("Comment added successfully!");
-      setBody("")
+      setBody("");
     } catch (err) {
       console.error(err);
       toast.error("Error adding comment.");
     }
   };
 
-  // if (commentsLoading && !data) return <Skeleton active />;
-  // if (commentsError) return <p>Error: {commentsError.message}</p>;
+  const formatDate = (dateString: number) => {
+    const date = fromUnixTime(dateString / 1000);
+    return isYesterday(date)
+      ? "Yesterday"
+      : isToday(date)
+      ? format(date, "p")
+      : format(date, "dd/MM/yyyy");
+  };
 
   return (
-    
     <Modal open={isOpen} onClose={() => setIsOpen(false)}>
       <Box
         sx={{
@@ -128,33 +159,53 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
-          width: "40%",
+          width: {
+            xs: "90%",
+            sm: "80%",
+            md: "60%",
+            lg: "40%",
+          },
           borderRadius: 2,
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Box display="flex" justifyContent="space-between" borderBottom={1} borderColor="grey.400">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          borderBottom={1}
+          borderColor="grey.400"
+        >
           <Typography variant="h6">Comments</Typography>
           <IconButton onClick={() => setIsOpen(false)}>
             <CloseOutlined />
           </IconButton>
         </Box>
 
-        <Box display="flex" flexDirection="row" mt={2} borderBottom={1} borderColor="grey.400" pb={2}>
+        <Box
+          display="flex"
+          flexDirection="row"
+          mt={2}
+          borderBottom={1}
+          borderColor="grey.400"
+          pb={2}
+        >
           <Image alt="ecommerce" className="w-[15%] h-[25%]" src={imageSrc} />
-          <Typography variant="subtitle1" className="ml-4 font-semibold">{title}</Typography>
+          <Typography variant="subtitle1" className="ml-4 font-semibold">
+            {title}
+          </Typography>
         </Box>
 
         <Box display="flex" flexDirection="row" mt={2} gap={2} pb={2}>
           <TextField
+            className="bg-gray-100"
             fullWidth
             variant="outlined"
             placeholder="My Comment"
             name="comment"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            inputProps={{ maxLength: 20 }}
+            // inputProps={{ maxLength: 20 }}
           />
           <Button
             onClick={handleUpload}
@@ -165,52 +216,11 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
             Upload
           </Button>
         </Box>
-
-        {/* <ScrollableDiv className="text-sm px-4 overflow-auto h-50 bg-gray-100" id="scrollable-div">
-          <Box display="flex" flexDirection="row">
-            <Typography variant="body2" fontWeight="bold" pr={1}>Nikhil</Typography>
-            <Typography variant="body2">Beautiful</Typography>
-          </Box>
-          <Box display="flex" flexDirection="row">
-            <Typography variant="body2" fontWeight="bold" pr={1}>Aditya</Typography>
-            <Typography variant="body2">Amazing</Typography>
-          </Box>
-          <Button
-            onClick={toggleExpansion}
-            sx={{ mt: 2, color: "gray", ":hover": { color: "black" } }}
-          >
-            {isExpanded ? "Hide comments..." : "...View all comments"}
-          </Button>
-          {isExpanded && (
-            <Box mt={2}>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Nikhil</Typography>
-                <Typography variant="body2">Beautiful</Typography>
-              </Box>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Aditya</Typography>
-                <Typography variant="body2">Amazing</Typography>
-              </Box>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Nikhil</Typography>
-                <Typography variant="body2">Beautiful</Typography>
-              </Box>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Aditya</Typography>
-                <Typography variant="body2">Amazing</Typography>
-              </Box>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Nikhil</Typography>
-                <Typography variant="body2">Beautiful</Typography>
-              </Box>
-              <Box display="flex" flexDirection="row">
-                <Typography variant="body2" fontWeight="bold" pr={1}>Aditya</Typography>
-                <Typography variant="body2">Amazing</Typography>
-              </Box>
-            </Box>
-          )}
-        </ScrollableDiv> */}
-        <div style={{ height: "400px", overflow: "auto" }} id="scrollable-div">
+        <div
+          style={{ height: "300px", overflow: "auto" }}
+          id="scrollable-div"
+          className="no-scrollbar bg-gray-100 px-3 rounded-lg"
+        >
           <InfiniteScroll
             dataLength={comments.length}
             next={loadMoreComments}
@@ -220,11 +230,27 @@ const CommentCard: React.FC<ChildProp> = ({ isOpen, setIsOpen, imageSrc, title, 
           >
             <List
               dataSource={comments}
-              renderItem={comment => (
+              renderItem={(comment) => (
                 <List.Item key={comment.id}>
                   <List.Item.Meta
-                    avatar={<Avatar>{comment.body.charAt(0)}</Avatar>}
-                    title={comment.body}
+                    avatar={
+                      <Avatar className="bg-pink-400">
+                        {comment.username.charAt(0)}
+                      </Avatar>
+                    }
+                    title={
+                      <div className="flex justify-between">
+                        <span>{comment.username}</span>
+                        <span className="text-gray-500/80">
+                          {formatDate(comment.createdAt)}
+                        </span>
+                      </div>
+                    }
+                    description={
+                      <div className="font-semibold text-justify p-1">
+                        {comment.body}
+                      </div>
+                    }
                   />
                 </List.Item>
               )}

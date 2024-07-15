@@ -19,7 +19,7 @@ interface ChildProp {
     image       : string,
 }
 
-const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, size, quantity, price , image }) => {
+const JobCardModal: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, size, quantity, price , image }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -32,7 +32,7 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   }
 
   return (
-    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-xl overflow-hidden mb-3 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
+    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-sm overflow-hidden m-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
       <div className='flex flex-col md:flex-row'>
         <div className='md:w-2/5 lg:w-[80%] '>
           {image && <Image
@@ -44,8 +44,8 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
           />}
         </div>
         <div className='md:w-3/5 md:rounded-r-xl p-4 md:p-6'>
-          <h2 onClick={handleTitleClick} className='text-xl cursor-pointer text-black font-bold tracking-widest mb-2'>
-            {title.toUpperCase()}
+          <h2 className='text-sm cursor-pointer font-sans text-black font-bold tracking-widest mb-2'>
+            {title}
           </h2>
           <div className='mb-4'>
             <p className='text-gray-600 mb-2'>{details}</p>
@@ -84,4 +84,4 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   );
 }
 
-export default JobCard;
+export default JobCardModal;

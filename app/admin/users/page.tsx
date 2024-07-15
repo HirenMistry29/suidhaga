@@ -31,10 +31,11 @@ const Users = () => {
     if (data && data.users) {
       let filteredUsers: User[];
       if (value.trim() === '') {
-        filteredUsers = [];
+        filteredUsers = data.users;
       } else {
         filteredUsers = data.users.filter(user =>
-          user.username.toLowerCase().startsWith(value.toLowerCase())
+          user.username.toLowerCase().includes(value.toLowerCase()) ||
+          user.phone.includes(value)
         );
       }
       setSearchResults(filteredUsers);
@@ -56,9 +57,9 @@ const Users = () => {
       key: 'Sr_no',
     },
     {
-      title: 'Id',
-      dataIndex: '_id',
-      key: '_id',
+      title: 'email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Name',
@@ -75,14 +76,10 @@ const Users = () => {
     },
   ];
 
-  let users = data?.users?.map((user, index) => ({
+  const users = (searchResults.length ? searchResults : data?.users)?.map((user, index) => ({
     Sr_no: index + 1,
     ...user,
   }));
-
-  if (selectedUserId) {
-    users = users?.filter(user => user._id === selectedUserId);
-  }
 
   if (error) {
     return <div>Error loading data</div>;

@@ -17,6 +17,7 @@ export const GET_USERS = gql`
     users {
       _id
       username
+      userType
       email
       phone
       name

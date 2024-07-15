@@ -29,23 +29,18 @@ const ExcelReader = () => {
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
             const jsonData = utils.sheet_to_json(sheet, { header: 1 });
-
             headers = jsonData[0];
-
             const formattedData = jsonData.slice(1).map((row:any) => {
                 const obj: { [key: string]: string } = {};
                 for (let i = 0; i < headers.length; i++) {
                     obj[headers[i]] = row[i] ? row[i] : "";
                 }
-
                 return obj;
             });
             console.log(headers);
             setFormattedData(formattedData);
             console.log(formattedData);
-            
         };
-
         reader.readAsBinaryString(selectedFile);
         console.log(headers);
     };
@@ -110,7 +105,6 @@ const ExcelReader = () => {
                     </table>
                 )
             }
-
         </div>
     );
 };

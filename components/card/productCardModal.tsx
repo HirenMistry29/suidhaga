@@ -19,13 +19,14 @@ interface ChildProp {
 
 
 
-const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price, postId }) => {
+const ProductCardModal: React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price, postId }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rows, setRows] = useState(2);
   const [expanded, setExpanded] = useState(false);
+  
 
   return (
-    <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full'>
+    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-sm overflow-hidden m-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
       <div className='flex flex-col md:flex-row'>
         <div className=' md:w-[40%] lg:w-[80%] '>
           <Image
@@ -85,4 +86,4 @@ const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, siz
     </div>
   );
 }
-export default ProductCard;
+export default ProductCardModal;
