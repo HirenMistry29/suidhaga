@@ -39,7 +39,15 @@ const Job: React.FC = () => {
   const handleDelete = async (id: string) => {
     console.log(id);
     try {
-      await deleteJob({ variables: { jobId: id } });
+      console.log("deleting JOb");
+      const ID = { id: id };
+      console.log(ID);
+      
+      await deleteJob({ 
+        variables: { 
+          jobId: id, 
+        } ,
+      });
       message.success("Job deleted successfully");
       // Optionally, refetch the data after deletion
       // client.reFetchQueries({ include: ['jobs'] });

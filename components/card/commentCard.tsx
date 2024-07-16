@@ -35,7 +35,7 @@ const ScrollableDiv = styled.div`
 interface ChildProp {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  imageSrc: StaticImport;
+  imageSrc: string;
   title: string;
   postId: string;
 }
@@ -190,7 +190,7 @@ const CommentCard: React.FC<ChildProp> = ({
           borderColor="grey.400"
           pb={2}
         >
-          <Image alt="ecommerce" className="w-[15%] h-[25%]" src={imageSrc} />
+          <Image alt="ecommerce" className="w-[15%] h-[25%]" width={100} height={100} src={imageSrc} />
           <Typography variant="subtitle1" className="ml-4 font-semibold">
             {title}
           </Typography>

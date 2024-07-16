@@ -13,7 +13,7 @@ import ChatUser from "@/components/ChatUser/dm";
 import AddJobCard from "@/components/card/jobForm";
 import AddPostCard from "@/components/card/postForm";
 import Sider from "antd/es/layout/Sider";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton } from "antd";
 import { AppBar, Toolbar, BottomNavigation, BottomNavigationAction } from "@mui/material";
@@ -21,8 +21,14 @@ import { FileAddFilled, AppstoreFilled, ShoppingFilled, MailFilled } from "@ant-
 import PersonIcon from '@mui/icons-material/Person';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TopNavbar from "@/components/navbar/topnavbar";
+import socket from "@/lib/socketservice";
+import toast from "react-hot-toast";
 // import { setJobVisibility, setPostVisibility } from "@/components/navbar/leftNavBar";
 
+type Notification = {
+  name: string;
+  message: string;
+};
 
 
 export default function HomeLayout({
@@ -39,6 +45,7 @@ export default function HomeLayout({
   const [id, setId] = useState();
   const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
   const router = useRouter();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   console.log(data);
   const handleChange = (_event: any, newValue: React.SetStateAction<number>) => {
     setValue(newValue);
@@ -53,6 +60,45 @@ export default function HomeLayout({
     setIsNavbarVisible(!isNavbarVisible);
   };
 
+  useEffect(() => {
+    // Check for notification permission
+    // console.log(Notification.permission);
+    
+    if (Notification.permission === 'default') {
+        Notification.requestPermission();
+        console.log('default permission');
+    }
+
+    socket.on('notification', (data: Notification) => {
+        setNotifications((prevNotifications) => [...prevNotifications, data]);
+        // console.log(notifications);
+        
+        // Show browser notification
+        if (Notification.permission == 'granted') {
+          // console.log('granted notification'); 
+          
+          if (data) {
+            console.log("Data : ",data);
+            const notify = new Notification(`Notification from  ${data?.name}`, {
+              body: data?.message,
+          });
+          notify.onshow=()=>{
+            // console.log('shwo');
+          }
+          notify.onclick=()=>{
+            console.log('click');
+          }
+          // console.log(notify)
+          }  
+        }
+    });
+
+    return () => {
+        socket.off('notification');
+    };
+}, [data]);
+
+  
 
 
   return (
@@ -147,7 +193,7 @@ export default function HomeLayout({
                     top: "41px",
                   }}
                 >
-                  <ChatUser />
+                  <ChatUser notifications={notifications}/>
                 </div>
               </div>
             </div>

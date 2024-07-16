@@ -113,13 +113,13 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
 
       <div className="bg-white body-font rounded-xl overflow-hidden mb-2">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 p-2 ">
-          <div className={`border-2 rounded-full flex justify-center p-2 ${myOrders ? 'bg-blue-500 text-white' : ''}`} onClick={handleOrderClick}>
+          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myOrders ? 'bg-blue-500 text-white' : ''}`} onClick={handleOrderClick}>
             MY ORDERS
           </div>
-          <div className={`border-2 rounded-full flex justify-center p-2 ${myJobOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handleJobClick}>
+          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myJobOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handleJobClick}>
             MY JOBS
           </div>
-          <div className={`border-2 rounded-full flex justify-center p-2 ${myPostsOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handlePostClick}>
+          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myPostsOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handlePostClick}>
             MY POSTS
           </div>
         </div>
@@ -130,14 +130,15 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
           {myJobOpen ? "MY JOBS" : myPostsOpen ? "MY POSTS" : myOrders ? "MY ORDERS" : "MY JOBS"}
         </div>
         {myJobOpen && (
-          <div className="grid lg:grid-cols-5 gap-1 md:grid-cols-3 bg-gray-200">
+          <div className="grid lg:grid-cols-4 gap-1 md:grid-cols-3 grid-cols-3 bg-gray-200">
             {jobsData && jobsData.jobByUserID && jobsData.jobByUserID.length > 0 ? (
               jobsData.jobByUserID.map((job: any) => (
                 <Card
                   key={job._id}
                   onClick={() => handleCardClick(job._id)}
                   hoverable
-                  cover={<img alt="loading..." src={job.image} style={{ width: '100%' }} />}
+                  className="relative overflow-hidden rounded-lg shadow-md"
+                  cover={<img alt="loading..."  src={job.image} className="w-full h-auto transition-transform transform hover:scale-105 ease-in" style={{ width: '100%' }} />}
                 >
                   <Meta title={job.title} />
                 </Card>

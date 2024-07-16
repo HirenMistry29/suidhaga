@@ -7,7 +7,7 @@ import CommentCard from './commentCard';
 import { Typography } from 'antd';
 
 interface ChildProp {
-  imageSrc: StaticImport,
+  image: string,
   title: String,
   details: String,
   color: String,
@@ -19,23 +19,25 @@ interface ChildProp {
 
 
 
-const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price, postId }) => {
+const ProductCard: React.FC<ChildProp> = ({ image, title, details, color, size, quantity, price, postId }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rows, setRows] = useState(2);
   const [expanded, setExpanded] = useState(false);
-
+  
   return (
     <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full'>
       <div className='flex flex-col md:flex-row'>
         <div className=' md:w-[40%] lg:w-[80%] '>
-          <Image
+          {image && <Image
             alt='ecommerce'
             className='w-full object-cover object-center rounded-xl md:rounded-l-xl md:rounded-t-none h-[100%]'
-            src={imageSrc}
-          />
+            src={image}
+            width={100}
+            height={100}
+          />}
         </div>
         <div className='md:w-3/5 md:rounded-r-xl p-4 md:p-6 grow'>
-          <h2 className='text-sm font-sans text-black font-bold tracking-widest text-xl mb-2'>
+          <h2 className=' font-sans text-black font-bold tracking-widest text-xl mb-2'>
             {title}
           </h2>
           <div className='mb-4'>
@@ -67,7 +69,7 @@ const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, siz
           </div>
           <div className='flex flex-col md:flex-row items-center'>
             <span className='title-font font-medium text-2xl text-black mb-2 md:mb-0 md:mr-4'>
-              ${price}
+            ₹{price}
             </span>
             <div className='flex items-center md:ml-auto'>
               <span onClick={() => toast.success(`Post Liked`)}>
@@ -81,7 +83,7 @@ const ProductCard: React.FC<ChildProp> = ({ imageSrc, title, details, color, siz
           </div>
         </div>
       </div>
-      <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`} postId={postId} /></div>
+      <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={image} title={`${title}`} postId={postId} /></div>
     </div>
   );
 }

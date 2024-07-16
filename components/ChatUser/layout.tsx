@@ -7,7 +7,7 @@ interface ChildProp{
     newMessages: string;
 }
 
-const ChatUserlayout:React.FC<ChildProp> = ({userName , newMessages}) => {
+const Notificationlayout:React.FC<ChildProp> = ({userName , newMessages}) => {
   return (
     <div>
       <div className='flex flex-row items-center justify-between p-[2%] cursor-pointer'>
@@ -15,7 +15,7 @@ const ChatUserlayout:React.FC<ChildProp> = ({userName , newMessages}) => {
             <Image src={MAN} alt='' style={{width:'50px' , height:'50px' }} className='rounded-[20%]'/> 
             <div className='flex flex-col mr-[]'>
                 <span className='font-semibold'>{userName}</span>
-                <span className='text-sm'>{newMessages} new message</span>
+                <span className='w-[80%] text-xs'>{newMessages}</span>
             </div>
        </div>
         <span className='h-2 w-2 rounded-[50%] bg-blue-500 mr-[5%]'></span>
@@ -24,4 +24,4 @@ const ChatUserlayout:React.FC<ChildProp> = ({userName , newMessages}) => {
   )
 }
 
-export default ChatUserlayout;
+export default Notificationlayout;
