@@ -53,14 +53,14 @@ const Header:React.FC<ChildProp> = ({userType}) => {
     return(
         <div className="flex flex-col">
             <div className="fixed top-0 flex flex-row w-screen bg-gradient-to-r from-[#00154F] to-[#1743B9] via-[#172651] px-[3%] h-10 justify-between text-white">
-                <div className="flex flex-row h-[80%] w-[30%] px-1 xl:w-[10%] sm:w-[10%]">
+                <div className="flex flex-row h-[100%] w-[30%] px-1 py-1 xl:w-[10%] sm:w-[10%]">
                     <Image src={logo} alt=""/>
                     <div className="font-bold py-[5px] px-1">
                     Akshaydhaga
                 </div>
                 </div>
-                <div className="flex flex-row xl:gap-4 lg:gap-4 sm:gap-1 gap-1 py-[5px]">
-                    { userType==='Admin' && <span className="flex flex-row gap-1 xl:gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
+                <div className="flex flex-row xl:gap-4 lg:gap-4 sm:gap-1 gap-8 py-[5px]">
+                    { userType==='Admin' && <span className="flex flex-row gap-4 xl:gap-4"> <span onClick={()=>route('/admin')} className="cursor-pointer hover:text-[#C7C7C7] ">Admin</span>
                     <span>|</span></span> }
                     { isAdmin && <span className="flex flex-row gap-1 xl:gap-4"> <span onClick={()=>route('/jobs')} className="cursor-pointer hover:text-[#C7C7C7] ">Jobs</span> 
                     <span>|</span></span> }

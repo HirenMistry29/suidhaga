@@ -71,7 +71,7 @@ const LeftNavBar: React.FC<ChildProp> = ({ setJobVisibility, setPostVisibility, 
         </AutoComplete>
       </div>
       <div className="w-full border-solid border-[1px] bg-gray-500" />
-      <div className="flex flex-col text-gray-700 gap-[1px] bg-white h-1/2">
+      <div className="flex flex-col justify-end text-gray-700 gap-[1px] bg-white h-1/2">
         <span
           className="cursor-pointer text-lg font-semibold flex flex-row gap-3 p-2 rounded-lg hover:bg-gray-200"
           onClick={() => setJobVisibility(true)}
