@@ -156,9 +156,9 @@ const Post = () => {
         <div key={post.id} >
           {/* <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/> */}
           <ProductCard
-            imageSrc={NewImage}
-            title={post.title}
-            details={post.description}
+            image={post?.image}
+            title={post?.title}
+            details={post?.description}
             color={'Blue , Red'}
             size={'xl , lg'}
             quantity={'20'}

@@ -9,6 +9,9 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useRouter } from "next/navigation";
 import "@/public/css/client.css";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import axios from "axios";
+import { useQuery } from "@apollo/client";
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
 
 interface AddJobCardProps {
   isOpen: boolean;
@@ -22,6 +25,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const [imageBase64, setImageBase64] = React.useState<string>();
   const [createJob, { loading, error }] = useMutation(ADD_JOB);
+  const { data } = useQuery(GET_AUTHENTICATED_USER);
   const formik = useFormik({
     initialValues: {
       jobTitle: "",
@@ -78,6 +82,20 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
           toast.error(`Error creating job`);
           console.error(err);
         }
+        try {
+          const name = `${values.jobTitle}`;
+          const message = `${data?.authUser?.name} created a New Job`;
+  
+          await axios.post("http://localhost:8080/api", { name, message })
+              .then((res) => {
+                  console.log(res)
+              })
+  
+          // console.log("submitted", name, message)
+        } catch (error) {
+          console.log(error);
+          
+        }
       }
 
       onClose();
@@ -98,6 +116,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
       };
     });
   }
+  
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {

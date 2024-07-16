@@ -9,6 +9,7 @@ export const GET_POSTS = gql`
       body
       username
       createdAt
+      image
     }
   }
 `;
