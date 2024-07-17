@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useRouter } from 'next/navigation';
 import AddJobCard from '@/app/(client)/jobs/[jobId]/page';
+import { APPLY_JOB } from '@/graphql/mutations/applyJob.mutation';
+import { useMutation } from '@apollo/client';
 
 
 interface ChildProp {
@@ -29,6 +31,18 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  }
+  const jobId = id;
+  console.log(jobId)
+  const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB);
+  const onApplyJob = async () => {
+    await applyJob ({
+      variables: {
+        jobId: jobId,
+      }
+      
+    });
+    toast.success("Successfully applied");
   }
 
   return (
@@ -69,7 +83,7 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
             </span>
             <div className='flex items-center md:ml-auto'>
               <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'
-               onClick={()=>toast.success(`Applied for the job`)}>
+               onClick={onApplyJob}>
                 Apply
               </button>
             </div>

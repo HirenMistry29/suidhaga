@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
-import { Card } from "antd";
+import { Avatar, Card } from "antd";
+
 import Meta from "antd/es/card/Meta";
 import { GET_JOBS_BY_ID } from "@/graphql/queries/jobs.queries";
 import { GET_POSTS_BY_ID } from "@/graphql/queries/post.queries";
 import AddJobCard from "@/app/(client)/jobs/[jobId]/page";
 import AddPostCard from "./postForm";
 import AddPostModalCard from "@/app/(client)/posts/[postId]/page";
-import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif'
-
+import NewImage from "@/public/image/photo-1584184924103-e310d9dc82fc.avif";
+import {
+  GET_AUTHENTICATED_USER,
+  GET_USERS,
+} from "@/graphql/queries/users.queries";
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 interface ChildProp {
   imageSrc: string; // Assuming imageSrc is a string URL
@@ -28,18 +40,28 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
   const [myJobOpen, setMyJobOpen] = useState(true);
   const [myPostsOpen, setMyPostsOpen] = useState(false);
   const [myOrders, setMyOrders] = useState(false);
+  const [applications, setApplications] = useState([]);
 
-  const { data: jobsData, loading: jobsLoading, error: jobsError, refetch: refetchJobs } = useQuery(GET_JOBS_BY_ID, {
+  const {
+    data: jobsData,
+    loading: jobsLoading,
+    error: jobsError,
+  } = useQuery(GET_JOBS_BY_ID, {
     variables: {
       id: accountId,
     },
   });
 
-  const { data: postData, loading: postLoading, error: postError } = useQuery(GET_POSTS_BY_ID, {
+  const {
+    data: postData,
+    loading: postLoading,
+    error: postError,
+  } = useQuery(GET_POSTS_BY_ID, {
     variables: {
       id: accountId,
     },
   });
+  const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
 
   const handleCardClick = (jobId: string) => {
     setSelectedJobId(jobId);
@@ -65,6 +87,8 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
     setMyJobOpen(true);
     setMyPostsOpen(false);
     setMyOrders(false);
+    console.log(jobsData);
+
   };
 
   const handlePostClick = () => {
@@ -113,13 +137,28 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
 
       <div className="bg-white body-font rounded-xl overflow-hidden mb-2">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 p-2 ">
-          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myOrders ? 'bg-blue-500 text-white' : ''}`} onClick={handleOrderClick}>
+          <div
+            className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${
+              myOrders ? "bg-blue-500 text-white" : ""
+            }`}
+            onClick={handleOrderClick}
+          >
             MY ORDERS
           </div>
-          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myJobOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handleJobClick}>
+          <div
+            className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${
+              myJobOpen ? "bg-blue-500 text-white" : ""
+            }`}
+            onClick={handleJobClick}
+          >
             MY JOBS
           </div>
-          <div className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${myPostsOpen ? 'bg-blue-500 text-white' : ''}`} onClick={handlePostClick}>
+          <div
+            className={`cursor-pointer border-2 rounded-full flex justify-center p-2 ${
+              myPostsOpen ? "bg-blue-500 text-white" : ""
+            }`}
+            onClick={handlePostClick}
+          >
             MY POSTS
           </div>
         </div>
@@ -127,18 +166,33 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
 
       <div className="bg-white body-font shadow-xl rounded-xl overflow-hidden ">
         <div className="py-3 pl-3 border-b-2 ">
-          {myJobOpen ? "MY JOBS" : myPostsOpen ? "MY POSTS" : myOrders ? "MY ORDERS" : "MY JOBS"}
+          {myJobOpen
+            ? "MY JOBS"
+            : myPostsOpen
+            ? "MY POSTS"
+            : myOrders
+            ? "MY ORDERS"
+            : "MY JOBS"}
         </div>
         {myJobOpen && (
           <div className="grid lg:grid-cols-4 gap-1 md:grid-cols-3 grid-cols-3 bg-gray-200">
-            {jobsData && jobsData.jobByUserID && jobsData.jobByUserID.length > 0 ? (
+            {jobsData &&
+            jobsData.jobByUserID &&
+            jobsData.jobByUserID.length > 0 ? (
               jobsData.jobByUserID.map((job: any) => (
                 <Card
                   key={job._id}
                   onClick={() => handleCardClick(job._id)}
                   hoverable
                   className="relative overflow-hidden rounded-lg shadow-md"
-                  cover={<img alt="loading..."  src={job.image} className="w-full h-auto transition-transform transform hover:scale-105 ease-in" style={{ width: '100%' }} />}
+                  cover={
+                    <img
+                      alt="loading..."
+                      src={job.image}
+                      className="w-full h-auto transition-transform transform hover:scale-105 ease-in"
+                      style={{ width: "100%" }}
+                    />
+                  }
                 >
                   <Meta title={job.title} />
                 </Card>
@@ -151,13 +205,22 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
 
         {myPostsOpen && (
           <div className="grid lg:grid-cols-5 gap-1 md:grid-cols-3 bg-gray-200">
-            {postData && postData.getPostsById && postData.getPostsById.length > 0 ? (
+            {postData &&
+            postData.getPostsById &&
+            postData.getPostsById.length > 0 ? (
               postData.getPostsById.map((post: any) => (
                 <Card
                   key={post._id}
                   onClick={() => handlePostCardClick(post._id)}
                   hoverable
-                  cover={<Image alt="loading..." src={NewImage} width={100} height={100} />}
+                  cover={
+                    <Image
+                      alt="loading..."
+                      src={NewImage}
+                      width={100}
+                      height={100}
+                    />
+                  }
                 >
                   <Meta title={post.title} />
                 </Card>
@@ -167,14 +230,51 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
             )}
           </div>
         )}
+        {myOrders && (
+          <div>
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "white" }}>
+              {jobsData.jobByUserID.map((job: any) => (
+                <React.Fragment key={job._id}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar>{job.image}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={job.title}
+                      secondary={
+                        <Typography
+                          key={job.userId}
+                          sx={{ display: "inline", textOverflow: "ellipsis" }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {job.username}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </React.Fragment>
+              ))}
+            </List>
+          </div>
+        )}
       </div>
 
       {isModalOpen && selectedJobId && (
-        <AddJobCard isOpen={isModalOpen} onClose={handleCloseModal} jobId={selectedJobId} />
+        <AddJobCard
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          jobId={selectedJobId}
+        />
       )}
 
       {isPostModalOpen && selectedPostId && (
-        <AddPostModalCard isOpen={isPostModalOpen} onClose={handlePostCloseModal} postId={selectedPostId} 
+        <AddPostModalCard
+          isOpen={isPostModalOpen}
+          onClose={handlePostCloseModal}
+          postId={selectedPostId}
         />
       )}
     </>

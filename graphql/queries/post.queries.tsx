@@ -24,7 +24,7 @@ export const GET_POSTS_ADMIN = gql`
       createdAt
     }
   }
-`
+`;
 export const GET_POSTS_BY_ID = gql`
   query GetPosts($id: ID!) {
     getPostsById(accountId: $id) {
