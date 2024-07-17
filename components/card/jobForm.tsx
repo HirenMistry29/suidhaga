@@ -142,13 +142,18 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
       aria-labelledby="add-job-modal"
       aria-describedby="add-job-modal-description"
     >
-      <Box
+      <Box 
         sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "50%",
+          width:{
+            xs: "90%",
+            md: "60%",
+            xl: "50%",
+          },
+        
           height: "70%",
           bgcolor: "background.paper",
           border: "2px solid #000",
@@ -158,7 +163,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
           borderRadius: 2,
         }}
       >
-        <div className="flex flex-row h-full gap-[2%]">
+        <div className="flex flex-col xl:flex-row h-full gap-[2%]">
           <form
             onSubmit={formik.handleSubmit}
             className="overflow-auto custom-scrollbar "
@@ -313,8 +318,8 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
               </Box>
             </div>
           </form>
-          <div className="h-full p-[1.5px] bg-gray-100" />
-          <div className="flex w-[50%] justify-center h-full overflow-auto custom-scrollbar">
+          {/* <div className="h-full px-[1.5px] bg-gray-100" /> */}
+          <div className="flex w-full xl:w-[50%] justify-center h-full overflow-auto custom-scrollbar">
             <div className="h-screen w-[90%] p-[4%] bg-[#ededed52]">
               <div className="relative flex justify-center">
                 {imagePreview && (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
-import { Avatar, Card } from "antd";
+import { Avatar, Card, List } from "antd";
 
 import Meta from "antd/es/card/Meta";
 import { GET_JOBS_BY_ID } from "@/graphql/queries/jobs.queries";
@@ -15,14 +15,6 @@ import {
   GET_AUTHENTICATED_USER,
   GET_USERS,
 } from "@/graphql/queries/users.queries";
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-} from "@mui/material";
 
 interface ChildProp {
   imageSrc: string; // Assuming imageSrc is a string URL
@@ -88,7 +80,6 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
     setMyPostsOpen(false);
     setMyOrders(false);
     console.log(jobsData);
-
   };
 
   const handlePostClick = () => {
@@ -102,6 +93,17 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
     setMyJobOpen(false);
     setMyPostsOpen(false);
   };
+  const defaultData = [
+    {
+      title: "Ant Design Title 1",
+    },
+    {
+      title: "Ant Design Title 2",
+    },
+    {
+      title: "Ant Design Title 3",
+    },
+  ];
 
   return (
     <>
@@ -231,33 +233,24 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
           </div>
         )}
         {myOrders && (
-          <div>
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "white" }}>
-              {jobsData.jobByUserID.map((job: any) => (
-                <React.Fragment key={job._id}>
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar>{job.image}</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={job.title}
-                      secondary={
-                        <Typography
-                          key={job.userId}
-                          sx={{ display: "inline", textOverflow: "ellipsis" }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {job.username}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </React.Fragment>
-              ))}
-            </List>
+          <div className="p-4">
+            <List
+              itemLayout="horizontal"
+              dataSource={defaultData}
+              renderItem={(item, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                      />
+                    }
+                    title={<a href="https://ant.design">{item.title}</a>}
+                    description=""
+                  />
+                </List.Item>
+              )}
+            />
           </div>
         )}
       </div>
