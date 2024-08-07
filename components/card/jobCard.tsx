@@ -36,13 +36,15 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   console.log(jobId)
   const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB);
   const onApplyJob = async () => {
+    console.log("jobId",jobId);
     await applyJob ({
       variables: {
         jobId: jobId,
       }
-      
-    });
-    toast.success("Successfully applied");
+    })
+    .then(() => {toast.success(`Successfully applied`)})
+    .catch(error =>{console.log(error)});
+    // toast.success("Successfully applied");
   }
 
   return (

@@ -22,6 +22,7 @@ export const GET_POSTS_ADMIN = gql`
       description
       username
       createdAt
+      image
     }
   }
 `;
@@ -31,6 +32,7 @@ export const GET_POSTS_BY_ID = gql`
       _id
       title
       description
+      image
       }
     }
 `;
@@ -40,6 +42,7 @@ export const GET_POST_BY_ID = gql`
     getPostById(postId: $postId) {
       title
       description
+      image
       }
     }
 `;
