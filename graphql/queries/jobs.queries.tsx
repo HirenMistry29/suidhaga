@@ -13,6 +13,7 @@ export const GET_JOBS = gql`
       amount
       quantity
       name
+      user
     }
   }
 `;
@@ -29,6 +30,11 @@ export const GET_JOB_BY_ID = gql`
       color
       amount
       quantity
+      user
+      applications{
+        username
+        userId
+      }
     }
   }
 `;
@@ -41,6 +47,7 @@ export const GET_JOBS_BY_ID = gql`
       description
       status
       image
+      user
     }
   }
 `;

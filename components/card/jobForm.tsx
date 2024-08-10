@@ -71,6 +71,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose }) => {
         console.log(jobInput);
 
         try {
+          
           await createJob({
             variables: {
               input: jobInput,
