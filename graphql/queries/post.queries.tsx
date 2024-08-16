@@ -31,6 +31,7 @@ export const GET_POSTS_BY_ID = gql`
       _id
       title
       description
+      image
       }
     }
 `;
@@ -38,6 +39,8 @@ export const GET_POSTS_BY_ID = gql`
 export const GET_POST_BY_ID = gql`
   query GetPost($postId: ID!) {
     getPostById(postId: $postId) {
+      _id
+      image
       title
       description
       }

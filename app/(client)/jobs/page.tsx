@@ -5,6 +5,7 @@ import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif'
 import JobCard from '@/components/card/jobCard';
 import { useQuery } from '@apollo/client';
 import { GET_JOBS } from '@/graphql/queries/jobs.queries';
+import { Empty } from 'antd';
 
 const Job = () => {
   const{data,loading,error} = useQuery(GET_JOBS)  
@@ -23,19 +24,18 @@ const Job = () => {
   },[jobs])
  
   return (
+    jobs? (
     <div>
       {jobs && jobs.map((job : any)=>(
         <div key={job}> 
           <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/>
         </div>  
       ))}
-
-      {/* -----JobCard Static Data Demo-----  */}
-        {/* <JobCard imageSrc={NewImage} title={'Chaniya Choli'} details={'A Designer Chaniya Choli'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'2999'}/>
-        <JobCard imageSrc={NewImage} title={'Shirt'} details={'A Formal Shirt'} color={'Blue , Red'} size={'xl , lg'} quantity={'20'} price={'1800'}/> */}
     </div>
-  )
-}
+    
+  ): <Empty />
+)}
+
 
 export default Job;
 

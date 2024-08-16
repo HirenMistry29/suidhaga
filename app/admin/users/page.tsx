@@ -9,7 +9,7 @@ const { Search } = Input;
 
 interface User {
   _id: string;
-  username: string;
+  name: string;
   phone: string;
 }
 
@@ -34,17 +34,17 @@ const Users = () => {
         filteredUsers = data.users;
       } else {
         filteredUsers = data.users.filter(user =>
-          user.username.toLowerCase().includes(value.toLowerCase()) ||
+          user.name.toLowerCase().includes(value.toLowerCase()) ||
           user.phone.includes(value)
         );
       }
       setSearchResults(filteredUsers);
-      setSuggestions(filteredUsers.map(user => ({ value: user.username })));
+      setSuggestions(filteredUsers.map(user => ({ value: user.name })));
     }
   };
 
   const handleSelect = (value: string) => {
-    const selectedUser = searchResults.find(user => user.username === value);
+    const selectedUser = searchResults.find(user => user.name === value);
     if (selectedUser) {
       setSelectedUserId(selectedUser._id);
     }

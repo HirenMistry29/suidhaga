@@ -17,8 +17,9 @@ interface Job {
   _id: string;
   title: string;
   description: string;
-  username: string;
+  name: string;
   quantity: number;
+  image: string;
   amount: number;
   status: String;
 }
@@ -65,7 +66,7 @@ const Job: React.FC = () => {
           : data.jobs.filter(
               (job) =>
                 job.title.toLowerCase().includes(value.toLowerCase()) ||
-                job.username.toLowerCase().includes(value.toLowerCase())
+                job.name.toLowerCase().includes(value.toLowerCase())
             );
       setSearchResults(filteredJobs);
       setSuggestions(filteredJobs.map((job) => ({ value: job.title })));
@@ -93,7 +94,7 @@ const Job: React.FC = () => {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
-      render: () => <Avatar src={NewImage.src} />,
+      render: (_: any, record: Job) => <Avatar src={record?.image} />,
     },
     {
       title: "Title",

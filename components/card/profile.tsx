@@ -218,7 +218,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
                   cover={
                     <Image
                       alt="loading..."
-                      src={NewImage}
+                      src={post.image}
                       width={100}
                       height={100}
                     />

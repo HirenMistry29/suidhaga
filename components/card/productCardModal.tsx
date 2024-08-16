@@ -7,19 +7,20 @@ import CommentCard from './commentCard';
 import { Typography } from 'antd';
 
 interface ChildProp {
-  imageSrc: StaticImport,
+  image: string,
   title: String,
   details: String,
   color: String,
   size: String,
   quantity: String,
   price: String,
-  postId: string
+  postId: string,
+  
 }
 
 
 
-const ProductCardModal: React.FC<ChildProp> = ({ imageSrc, title, details, color, size, quantity, price, postId }) => {
+const ProductCardModal: React.FC<ChildProp> = ({ image , title, details, color, size, quantity, price, postId }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rows, setRows] = useState(2);
   const [expanded, setExpanded] = useState(false);
@@ -29,11 +30,13 @@ const ProductCardModal: React.FC<ChildProp> = ({ imageSrc, title, details, color
     <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-sm overflow-hidden m-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
       <div className='flex flex-col md:flex-row'>
         <div className=' md:w-[40%] lg:w-[80%] '>
-          <Image
+        {image && <Image
             alt='ecommerce'
             className='w-full object-cover object-center rounded-xl md:rounded-l-xl md:rounded-t-none h-[100%]'
-            src={imageSrc}
-          />
+            src={image}
+            width={100}
+            height={100}
+          />}
         </div>
         <div className='md:w-3/5 md:rounded-r-xl p-4 md:p-6 grow'>
           <h2 className='text-sm font-sans text-black font-bold tracking-widest text-xl mb-2'>
@@ -82,7 +85,7 @@ const ProductCardModal: React.FC<ChildProp> = ({ imageSrc, title, details, color
           </div>
         </div>
       </div>
-      <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={imageSrc} title={`${title}`} postId={postId} /></div>
+      <div><CommentCard isOpen={isOpen} setIsOpen={setIsOpen} imageSrc={image} title={`${title}`} postId={postId} /></div>
     </div>
   );
 }
