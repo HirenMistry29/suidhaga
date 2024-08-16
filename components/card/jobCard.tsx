@@ -6,8 +6,9 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useRouter } from 'next/navigation';
 import AddJobCard from '@/app/(client)/jobs/[jobId]/page';
 import { APPLY_JOB } from '@/graphql/mutations/applyJob.mutation';
-import { useMutation } from '@apollo/client';
-
+import { useMutation, useQuery } from '@apollo/client';
+import { CREATE_ORDER } from '@/graphql/mutations/order.mutation';
+import { GET_AUTHENTICATED_USER } from '@/graphql/queries/users.queries';
 
 interface ChildProp {
     imageSrc    : StaticImport,
@@ -19,11 +20,22 @@ interface ChildProp {
     price       : string,
     id          : string,
     image       : string,
+    name        : string,
+    customerID  : string,
+
 }
 
-const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, size, quantity, price , image }) => {
+const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, size, quantity, price , image , name, customerID}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const jobId = id;
+  const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB);
+  const [createOrder ] = useMutation(CREATE_ORDER);
+  const { data } = useQuery(GET_AUTHENTICATED_USER);
   const router = useRouter();
+
+  // console.log(jobId)
+  console.log(data?.authUser?._id, data?.authUser?.userType);
+  
 
   const handleTitleClick = () => {
     setIsModalOpen(true);
@@ -32,17 +44,41 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   const handleCloseModal = () => {
     setIsModalOpen(false);
   }
-  const jobId = id;
-  console.log(jobId)
-  const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB);
+  
+
   const onApplyJob = async () => {
+    
+  try {
+    console.log("creating Order");
+
+    const OrderInput = {
+        jobID : jobId,
+        appliedUsername : data?.authUser?.name,
+        appliedUserId : data?.authUser?._id,
+        userRole: data?.authUser?.userType,
+        customerId: customerID,
+    }
+    console.log(OrderInput);
+    await createOrder({
+      variables:{
+        input : OrderInput,
+      }
+    })
+    .then(()=>{toast.success("Order Created"),console.log("Order Created")})
+    .catch(error =>{ console.log("Crete Order Error : ",error)});
+  } catch (error) {
+    console.log("Create Order Error : ",error);
+  }
+
+    // console.log("jobId",jobId);
     await applyJob ({
       variables: {
         jobId: jobId,
       }
-      
-    });
-    toast.success("Successfully applied");
+    })
+    .then(() => {toast.success(`Successfully applied`)})
+    .catch(error =>{console.log(error)});
+    // toast.success("Successfully applied");
   }
 
   return (

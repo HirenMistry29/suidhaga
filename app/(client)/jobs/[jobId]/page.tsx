@@ -19,6 +19,8 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose, jobId }) => {
     variables: { id: jobId },
     skip: !jobId,
   });
+  console.log(data);
+  
 
   return (
     <Dialog  open={isOpen} onClose={onClose} fullWidth maxWidth="sm">

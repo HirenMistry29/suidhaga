@@ -220,7 +220,8 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
                       alt="loading..."
                       src={post.image}
                       width={100}
-                      height={100}
+                      height={30}
+                      className="h-[40%] w-auto"
                     />
                   }
                 >

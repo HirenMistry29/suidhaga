@@ -20,7 +20,6 @@ const Job = () => {
   
   useEffect(()=>{
     console.log(jobs);
-    
   },[jobs])
  
   return (
@@ -28,7 +27,7 @@ const Job = () => {
     <div>
       {jobs && jobs.map((job : any)=>(
         <div key={job}> 
-          <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount}/>
+          <JobCard image={job?.image} id={job?._id} imageSrc={NewImage} title={job?.title} details={job?.description} color={job?.color} size={job?.size} quantity={job?.quantity} price={job?.amount} name={job?.name} customerID={job?.user}/>
         </div>  
       ))}
     </div>
