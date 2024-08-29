@@ -159,7 +159,7 @@ export default function HomeLayout({
                         <TopNavbar />
                       </div>
                     </div>
-                    <div className="max-h-screen overflow-y-auto no-scrollbar rounded-lg" style={{height: "calc(100vh - 100px)"}}>
+                    <div className="max-h-screen overflow-y-auto no-scrollbar xl:py-1 py-7 rounded-lg" style={{height: "calc(100vh - 100px)"}}>
                       <span className="" >{children}</span>
                     </div>
                     <AddJobCard

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
-import { Avatar, Card, List } from "antd";
 
 import Meta from "antd/es/card/Meta";
 import { GET_JOBS_BY_ID } from "@/graphql/queries/jobs.queries";
@@ -15,6 +14,19 @@ import {
   GET_AUTHENTICATED_USER,
   GET_USERS,
 } from "@/graphql/queries/users.queries";
+import { ORDER_BY_USER_ID } from "@/graphql/queries/order.queries";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ImageIcon from "@mui/icons-material/Image";
+import WorkIcon from "@mui/icons-material/Work";
+import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import { Card } from "antd";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
 
 interface ChildProp {
   imageSrc: string; // Assuming imageSrc is a string URL
@@ -53,6 +65,24 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
       id: accountId,
     },
   });
+
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userType, setUserType] = useState<string | null>(null);
+
+  const {
+    data: orderData,
+    loading: orderLoading,
+    error: orderError,
+  } = useQuery(ORDER_BY_USER_ID, {
+    variables: {
+      input: {
+        operation: "Applied Order",
+        appliedUserId: accountId,
+        userRole: "Admin",
+      },
+    },
+  });
+
   const { data, loading, error } = useQuery(GET_AUTHENTICATED_USER);
 
   const handleCardClick = (jobId: string) => {
@@ -92,18 +122,16 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
     setMyOrders(true);
     setMyJobOpen(false);
     setMyPostsOpen(false);
+    console.log(orderData + accountId);
   };
-  const defaultData = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-  ];
+  useEffect(() => {
+    if (orderError) {
+      console.error("Order query error:", orderError.message);
+    }
+    if (orderData) {
+      console.log("Order data:", orderData);
+    }
+  }, [orderData, orderError]);
 
   return (
     <>
@@ -188,15 +216,16 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
                   hoverable
                   className="relative overflow-hidden rounded-lg shadow-md"
                   cover={
-                    <img
+                    <Image
                       alt="loading..."
                       src={job.image}
-                      className="w-full h-auto transition-transform transform hover:scale-105 ease-in"
-                      style={{ width: "100%" }}
+                      height={30}
+                      width={100}
+                      className="h-[40%] w-full"
                     />
                   }
                 >
-                  <Meta title={job.title} />
+                  <Meta className="absolute bottom-3"  title={job.title} />
                 </Card>
               ))
             ) : (
@@ -206,7 +235,7 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
         )}
 
         {myPostsOpen && (
-          <div className="grid lg:grid-cols-5 gap-1 md:grid-cols-3 bg-gray-200">
+          <div className="grid lg:grid-cols-4 gap-1 md:grid-cols-3 grid-cols-3 bg-gray-200">
             {postData &&
             postData.getPostsById &&
             postData.getPostsById.length > 0 ? (
@@ -215,17 +244,19 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
                   key={post._id}
                   onClick={() => handlePostCardClick(post._id)}
                   hoverable
+                  className="relative overflow-hidden rounded-lg shadow-md"
+
                   cover={
                     <Image
                       alt="loading..."
                       src={post.image}
                       width={100}
                       height={30}
-                      className="h-[40%] w-auto"
+                      className="h-[40%] w-full"
                     />
                   }
                 >
-                  <Meta title={post.title} />
+                  <Meta className="absolute bottom-3" title={post.title} />
                 </Card>
               ))
             ) : (
@@ -234,24 +265,33 @@ const Profile: React.FC<ChildProp> = ({ imageSrc, name, email, phone }) => {
           </div>
         )}
         {myOrders && (
-          <div className="p-4">
-            <List
-              itemLayout="horizontal"
-              dataSource={defaultData}
-              renderItem={(item, index) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
-                      />
-                    }
-                    title={<a href="https://ant.design">{item.title}</a>}
-                    description=""
-                  />
-                </List.Item>
-              )}
-            />
+          <div className="flex flex-col">
+            {orderData &&
+            orderData.orderByUserId &&
+            orderData.orderByUserId.length > 0 ? (
+              orderData.orderByUserId.map((order: any) => (
+                <Card
+                  key={order._id}
+                  >
+              
+                    <CardContent>
+                      <Typography variant="h5" component="div">
+                        {order.jobName}
+                      </Typography>
+                      <Typography color="text.secondary">
+                        {"Created By: " + order.customerName}
+                      </Typography>
+                      <Typography color="text.secondary">
+                        {"Applied By: " + order.appliedUsername}
+                      </Typography>
+                    </CardContent>
+                  
+            
+                </Card>
+              ))
+            ) : (
+              <div className="text-center text-gray-500">No orders found.</div>
+            )}
           </div>
         )}
       </div>

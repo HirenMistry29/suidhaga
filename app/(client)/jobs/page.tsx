@@ -18,9 +18,9 @@ const Job = () => {
     }    
   },[data])
   
-  useEffect(()=>{
-    console.log(jobs);
-  },[jobs])
+  // useEffect(()=>{
+  //   console.log(jobs);
+  // },[jobs])
  
   return (
     jobs? (

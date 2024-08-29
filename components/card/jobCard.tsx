@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image'; 
 import { LikeOutlined, CommentOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
@@ -23,15 +23,24 @@ interface ChildProp {
     name        : string,
     customerID  : string,
 
+
 }
 
 const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, size, quantity, price , image , name, customerID}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const jobId = id;
-  const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB);
+  const jobName = title;
+  const [applyJob ,{ loading , error}] = useMutation(APPLY_JOB); 
   const [createOrder ] = useMutation(CREATE_ORDER);
   const { data } = useQuery(GET_AUTHENTICATED_USER);
   const router = useRouter();
+  const [role , setRole] = useState();
+
+  useEffect(()=> {
+      if(data){
+        setRole(data?.authUser?.userType);
+      }
+  },[data])
 
   // console.log(jobId)
   console.log(data?.authUser?._id, data?.authUser?.userType);
@@ -46,6 +55,7 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   }
   
 
+
   const onApplyJob = async () => {
     
   try {
@@ -57,6 +67,8 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
         appliedUserId : data?.authUser?._id,
         userRole: data?.authUser?.userType,
         customerId: customerID,
+        jobName: jobName,
+        customerName: name,
     }
     console.log(OrderInput);
     await createOrder({
@@ -82,7 +94,7 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
   }
 
   return (
-    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-xl overflow-hidden mb-3 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
+    <div className='bg-white body-font shadow-gray-300 shadow-xl rounded-xl overflow-hidden mb-2 lg:h-[calc(100vh-48vh)] h-full z-[80px]'>
       <div className='flex flex-col md:flex-row'>
         <div className='md:w-2/5 lg:w-[80%] '>
           {image && <Image
@@ -118,10 +130,10 @@ const JobCard: React.FC<ChildProp> = ({ id, imageSrc, title, details, color, siz
             ₹{price}
             </span>
             <div className='flex items-center md:ml-auto'>
-              <button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'
+              {role==="Admin"||role==="employee"?<button className='ml-2 w-full bg-[#C84869] border-2 py-2 px-6 focus:outline-none hover:bg-[#A72447] rounded text-white font-semibold'
                onClick={onApplyJob}>
                 Apply
-              </button>
+              </button>:" "}
             </div>
           </div>
         </div>
