@@ -8,6 +8,7 @@ export const CREATE_ORDER = gql`
         appliedUserId
         userRole
         customerId
+        jobName
     }
   }
 `

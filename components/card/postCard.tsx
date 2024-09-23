@@ -25,7 +25,7 @@ const ProductCard: React.FC<ChildProp> = ({ image, title, details, color, size, 
   const [expanded, setExpanded] = useState(false);
   
   return (
-    <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-4 lg:h-[calc(100vh-48vh)] h-full'>
+    <div className='bg-white body-font shadow-gray-500 shadow-xl rounded-xl overflow-hidden mb-2 lg:h-[calc(100vh-48vh)] h-full'>
       <div className='flex flex-col md:flex-row'>
         <div className=' md:w-[40%] lg:w-[80%] '>
           {image && <Image

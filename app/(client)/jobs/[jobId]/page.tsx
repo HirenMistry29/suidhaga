@@ -29,7 +29,7 @@ const AddJobCard: React.FC<AddJobCardProps> = ({ isOpen, onClose, jobId }) => {
         {error && <p>Error: {error.message}</p>}
         {data && data.job && (
           <div className='bg-gray-400'>
-          <JobCardModal 
+          <JobCardModal
             image={data.job.image} 
             id={data.job._id} 
             imageSrc={data.job.NewImage} 

@@ -26,7 +26,7 @@ const AddPostModalCard: React.FC<AddPostCardProps> = ({ isOpen, onClose, postId 
       {data && data.getPostById && (
         <div className='bg-gray-400'>
           <ProductCardModal
-            imageSrc={NewImage}
+            image={data.getPostById.image}
             title={data.getPostById.title}
             details={data.getPostById.description}
             color={'Blue , Red'}
