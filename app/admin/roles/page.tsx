@@ -170,8 +170,8 @@ const GetUsers: React.FC = () => {
             rules={[{ required: true, message: 'Please select a user type!' }]}
           >
             <Select placeholder="Select a user type">
-              <Option value="employer">Employer</Option>
-              <Option value="employee">Employee</Option>
+              <Option value="employer">Manufacturer</Option>
+              <Option value="employee">Artisan</Option>
               <Option value="Admin">Admin</Option>
             </Select>
           </Form.Item>
