@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import {
   HomeOutlined,
@@ -16,7 +16,7 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { GET_AUTHENTICATED_USER } from "@/graphql/queries/users.queries";
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from "@apollo/client";
 import Sider from "antd/es/layout/Sider";
 
@@ -44,7 +44,15 @@ export const NavigationLink: React.FC<NavLinkProps> = ({ href, children }) => {
 
 export const MenuList = () => {
   const router = useRouter();
+  const path = usePathname();
+  const [selectedKey, setSelectedKey] = useState('');
 
+  useEffect(() => {
+    console.log("path",path);
+    
+    setSelectedKey(path);
+  }, [path]);
+  
   const labels = [
       "Home",
       "Authentication",
@@ -62,7 +70,7 @@ export const MenuList = () => {
       "Profile",
   ];
   const paths = [
-    "/",
+    "/admin",
     "/admin/authentication",
     "/admin/bulkAdd",
     "/admin/attendance",
@@ -91,16 +99,15 @@ export const MenuList = () => {
     AdminPanelSettingsOutlined,
     BugReportOutlined,
   ].map((icon, index) => ({
-    key: String(index + 1),
+    key: paths[index],
     icon: React.createElement(icon),
     label: labels[index],
-    path: paths[index],
   }));
 
   const handleMenuClick = (e: any) => {
     const clickedItem = icons.find(item => item.key === e.key);
     if (clickedItem) {
-      router.push(clickedItem.path);
+      router.push(clickedItem.key);
     }
   };
 
@@ -108,8 +115,12 @@ export const MenuList = () => {
     <Menu
       theme="dark"
       mode="inline"
-      defaultSelectedKeys={["1"]}
-      items={icons}
+      defaultSelectedKeys={["0"]}
+      selectedKeys={[selectedKey]}
+      items={icons.map((item, index) => ({
+        ...item,
+        key: paths[index],  // Use path as key
+      }))}
       onClick={handleMenuClick}
       className="flex flex-col h-screen text-[0.9rem] pt-[10%] bg-[#00154F]"
     />
