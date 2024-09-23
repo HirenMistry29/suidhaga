@@ -9,6 +9,7 @@ export const GET_AUTHENTICATED_USER = gql`
 			userType
       email
       name
+  
 		}
 	}
 `;

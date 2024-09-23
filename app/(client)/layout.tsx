@@ -106,7 +106,7 @@ export default function HomeLayout({
       <LoadingProvider>
         
         <section className={"flex flex-col mt-[3.2%] bg-[#D9D9D9] relative"}>
-        <AppBar className="z-0 w-full  xl:hidden md:visible lg:hidden sm:visible bottom-0 bg-white top-auto right-0 left-0" position="fixed" color="primary" >
+        <AppBar className="z-10 w-full  xl:hidden md:visible lg:hidden sm:visible bottom-0 bg-white top-auto right-0 left-0" position="fixed" color="primary" >
                     <Toolbar className="w-screen justify-evenly">
                       <BottomNavigation className="w-screen justify-evenly " value={value} onChange={handleChange} showLabels>
                         <BottomNavigationAction label="" icon={<FileAddFilled onClick={() => SetJobApplicationVisibility(true)} />} />

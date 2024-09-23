@@ -4,13 +4,14 @@ import {useMutation, useQuery } from "@apollo/client";
 import { Table, Skeleton, Avatar, Dropdown, Select, AutoComplete, Input, message } from "antd";
 import { GET_JOBS } from "@/graphql/queries/jobs.queries";
 import NewImage from "@/public/image/photo-1584184924103-e310d9dc82fc.avif";
-import { DELETE_JOB } from "@/graphql/mutations/deleteJob.mutation";
+
 
 const { Search } = Input;
 import { DownOutlined } from "@ant-design/icons";
 import { UPDATE_JOB_STATUS } from "@/graphql/mutations/updateJobStatus.mutations";
 import toast from "react-hot-toast";
 import DeleteJobButton from "@/components/buttons/deleteJobButton";
+import { DELETE_JOB } from "@/graphql/mutations/deleteJob.mutations";
 
 interface Job {
   _id: string;
@@ -37,11 +38,10 @@ const Job: React.FC = () => {
   }, [data]);
 
   const handleDelete = async (id: string) => {
-    console.log(id);
+ 
     try {
       console.log("deleting JOb");
-      const ID = { id: id };
-      console.log(ID);
+    
       
       await deleteJob({ 
         variables: { 

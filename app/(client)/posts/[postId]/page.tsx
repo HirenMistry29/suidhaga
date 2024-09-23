@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import NewImage from '@/public/image/photo-1584184924103-e310d9dc82fc.avif';
 import Image from 'next/image';
 import { useQuery } from '@apollo/client';
